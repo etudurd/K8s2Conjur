@@ -17,7 +17,7 @@ This deployment guide is based on `jwks-uri` (when the Service Account Issuer Di
 - !Replace "oc" commands with "kubectl" if you are using Openshift.
 
 <details>
-### <summary> 0.1 Retrieve JWT Configuration </summary>
+### <summary> **0.1 Retrieve JWT Configuration** </summary>
 
 ##### A. Get JWKS and save it as "jwks.json"
 ```bash
