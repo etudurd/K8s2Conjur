@@ -4,6 +4,8 @@ This guide explains how to configure the JWT Authenticator in CyberArk Conjur to
 
 ## Before You Begin
 
+ ![image](https://github.com/user-attachments/assets/fde7e9e7-4ff6-476b-9c52-946d9c833dfb)
+
 
 ## Example: JWT Authenticator Policy
 
