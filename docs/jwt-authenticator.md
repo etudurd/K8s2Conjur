@@ -107,7 +107,7 @@ oc get --raw /.well-known/openid-configuration | jq -r '.issuer'
 Transfer `jwks.json` to the Conjur CLI host, then run:
 
 ```bash
-conjur variable set -i conjur/authn-jwt/dev-cluster-automation/public-keys -v '{"type":"jwks", "value":$(cat jwks.json)}'
+conjur variable set -i conjur/authn-jwt/dev-cluster-automation/public-keys -v "{\"type\":\"jwks\", \"value\":$(cat jwks.json)}"
 conjur variable set -i conjur/authn-jwt/dev-cluster-automation/issuer -v https://kubernetes.default.svc
 conjur variable set -i conjur/authn-jwt/dev-cluster-automation/token-app-property -v sub
 conjur variable set -i conjur/authn-jwt/dev-cluster-automation/identity-path -v app-path
