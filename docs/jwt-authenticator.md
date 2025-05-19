@@ -6,6 +6,7 @@ This guide explains how to configure the JWT Authenticator in CyberArk Conjur to
 
 More details [here](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s-jwt-authn.htm?tocpath=Integrations%7COpenShift%252FKubernetes%7CAuthenticate%20OpenShift%252FKubernetes%7C_____2). 
 
+**🔴⬇️	 **Kubernetes/Openshift Side** ⬇️🔴**
 
 ## 0. Prerequisites
 
@@ -88,8 +89,9 @@ Save the yaml (jwt-authn-automation.yml) and Run using the Conjur CLI:
 ```bash
 conjur policy load -f jwt-authn-automation.yml -b root
 ```
+**🔴⬇️	 **Kubernetes/Openshift Side** ⬇️🔴**
 
-## 3. Extract Kubernetes JWT and Issuer
+## 2. Extract Kubernetes JWT and Issuer
 
 Run the following to retrieve the token and issuer:
 
@@ -97,9 +99,10 @@ Run the following to retrieve the token and issuer:
 oc get --raw $(oc get --raw /.well-known/openid-configuration | jq -r '.jwks_uri') > jwks.json
 oc get --raw /.well-known/openid-configuration | jq -r '.issuer'
 ```
-![JWT + Issuer](../assets/images/e9556e1d-a377-4733-a8bc-84c44e460dae.png)
 
-## 4. Populate JWT Variables in Conjur
+**🔷⬇️	 **CyberArk Conjur Side** ⬇️🔷**
+
+## 3. Populate JWT Variables in Conjur
 
 Transfer `jwks.json` to the Conjur CLI host, then run:
 
@@ -112,6 +115,8 @@ conjur variable set -i conjur/authn-jwt/dev-cluster-automation/audience -v https
 ```
 ![Variable Set](../assets/images/324ae71f-b4ff-44ae-9678-3117c37d787c.png)
 
+**🔷⬇️	 **CyberArk Conjur Side** ⬇️🔷**
+
 ## 5. Allowlist the JWT Authenticator
 
 ```bash
@@ -119,11 +124,37 @@ export CONJUR_AUTHENTICATORS="authn,authn-jwt/dev-cluster-automation"
 podman exec conjur evoke variable set CONJUR_AUTHENTICATORS "authn,authn-jwt/dev-cluster-automation"
 ```
 
+**🔷⬇️	 **CyberArk Conjur Side** ⬇️🔷**
+
 ## 6. Enable Seed Generation Service
 
 Create the following policy file `seed-generation.yml`:
 
-![Seed Policy](../assets/images/c993f76e-a4cc-4b2a-b2c2-59d918501dab.png)
+```yaml
+---
+# =================================================
+# == Register the seed generation service
+# =================================================
+- !policy
+  id: conjur/seed-generation
+  body:
+  # This webservice represents the Seed service API
+  - !webservice
+
+  # Hosts that can generate seeds become members of the
+  # `consumers` group.
+  - !group consumers
+
+  # Authorize `consumers` to request seeds
+  - !permit
+    role: !group consumers
+    privilege: [ "execute" ]
+    resource: !webservice
+
+```
+
+
+And Run:
 
 ```bash
 conjur policy load -f seed-generation.yml -b root
