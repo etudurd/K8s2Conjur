@@ -42,7 +42,7 @@ This document describes a Conjur policy used to securely integrate an Ansible Au
     resources: *variables
 
     # Create admin group
-  - !group admins
+    # - !group admins
 
     # Add the automation user to admin group
   - !grant
@@ -51,9 +51,9 @@ This document describes a Conjur policy used to securely integrate an Ansible Au
       - !user AnsibleAutomationConjurUser
 
     # Allow admin group to manage root policy space
-  - !permit
-    role: !group admins
-    privileges: [ create, update, read ]
-    resource: !policy root
+    # - !permit
+    # role: !group admins
+    #privileges: [ create, update, read ]
+    #resource: !policy root
 
 ```
