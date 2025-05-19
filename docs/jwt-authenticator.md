@@ -45,8 +45,43 @@ JWKS response is returned? -> If Yes, proceed with the next steps.
 </details>
 
 
-## 2. Define the JWT Authenticator Policy
-![JWT Policy](../assets/images/94436b0d-df6d-4623-b463-0593bf43b21f.png)
+## 1. Define the JWT Authenticator Policy
+```yaml
+- !policy
+  id: conjur/authn-jwt/dev-cluster-automation
+  body:
+    - !webservice
+ 
+    # Uncomment one of following variables depending on the public availability
+    # of the Service Account Issuer Discovery service in Kubernetes
+    # If the service is publicly available, uncomment 'jwks-uri'.
+    # If the service is not available, uncomment 'public-keys'
+    # - !variable jwks-uri
+    - !variable public-keys
+ 
+    - !variable issuer
+    - !variable token-app-property
+    - !variable identity-path
+    - !variable audience
+    
+    # Group of applications that can authenticate using this JWT Authenticator
+    - !group apps
+   
+    - !permit
+      role: !group apps
+      privilege: [ read, authenticate ]
+      resource: !webservice
+   
+    - !webservice status
+   
+    # Group of users who can check the status of the JWT Authenticator
+    - !group operators
+   
+    - !permit
+      role: !group operators
+      privilege: [ read ]
+      resource: !webservice status
+
 
 ```bash
 conjur policy load -f jwt-authn-automation.yml -b root
