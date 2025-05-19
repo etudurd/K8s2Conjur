@@ -26,7 +26,7 @@ This document describes a Conjur policy used to securely integrate an Ansible Au
     - !variable ocp_token           # OpenShift Web Console Bearer token
 
     # Declare the actual variables
-    - *variables
+    #- *variables
 
     # Permissions for user to manage variables
   - !permit
