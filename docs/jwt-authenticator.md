@@ -120,9 +120,10 @@ conjur variable set -i conjur/authn-jwt/dev-cluster-automation/audience -v "http
 
 ## 5. Allowlist the JWT Authenticator
 
+On the same host, where Conjur container is deployed. (You also can use conjur.yml as an alternative)
 ```bash
-export CONJUR_AUTHENTICATORS="authn,authn-jwt/dev-cluster-automation"
-podman exec conjur evoke variable set CONJUR_AUTHENTICATORS "authn,authn-jwt/dev-cluster-automation"
+CONJUR_AUTHENTICATORS=authn,authn-jwt/dev-cluster-automation
+podman exec conjur evoke variable set CONJUR_AUTHENTICATORS authn,authn-jwt/dev-cluster-automation
 ```
 
 **🔷⬇️	 **CyberArk Conjur Side** ⬇️🔷**
