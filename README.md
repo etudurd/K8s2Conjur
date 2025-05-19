@@ -1,7 +1,7 @@
 # K8s2Conjur
 End-to-end automation to Discover, Onboard and Secure Kubernetes workloads and secrets with CyberArk Conjur via AAP.
 
-
+```yaml
 K8s2Conjur/
 ├── docs/
 │   ├── _index.md                ← Overview page (like a landing page)
@@ -27,3 +27,19 @@ K8s2Conjur/
 ├── LICENSE
 ├── README.md
 └── mkdocs.yml / config.toml      ← for MkDocs (or Hugo if you use a static site)
+
+```
+## 📘 Documentation
+
+- [Prerequisites](docs/prerequisites.md)
+- [JWT Authenticator Setup](docs/jwt-authenticator.md)
+- [Secrets Provider Deployment](docs/secrets-provider.md)
+- [Automation with Ansible](docs/automation-flow.md)
+- [Troubleshooting](docs/troubleshooting.md)
+
+---
+
+## 🚀 Quickstart
+
+```bash
+ansible-playbook -i inventory playbook.yml
