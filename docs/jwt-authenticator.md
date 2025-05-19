@@ -81,7 +81,7 @@ JWKS response is returned? -> If Yes, proceed with the next steps.
       role: !group operators
       privilege: [ read ]
       resource: !webservice status
-
+```
 
 ```bash
 conjur policy load -f jwt-authn-automation.yml -b root
