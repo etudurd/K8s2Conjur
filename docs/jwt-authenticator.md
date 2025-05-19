@@ -17,28 +17,32 @@ This deployment guide is based on `jwks-uri` (when the Service Account Issuer Di
 - !Replace "oc" commands with "kubectl" if you are using Openshift.
 
 
-### 1. Retrieve JWT Configuration
+### 0.1 Retrieve JWT Configuration
 
-#### A. Get JWKS
+#### A. Get JWKS and save it as "jwks.json"
 ```bash
 oc get --raw $(oc get --raw /.well-known/openid-configuration | jq -r '.jwks_uri') > jwks.json
 ```
 
-### B. Check OpenID Config
+### B. Check OpenID Config and if there is an output being retrieved: 
 ```bash
 oc get --raw /.well-known/openid-configuration
 curl -k https://<your-cluster>/openid/v1/jwks
 ```
-![Curl JWKS](../assets/images/583cce2d-4863-4a2c-804f-fde8d07bc64f.png)
+**If no output is returned, try the following:**
 
-### C. Extract API Endpoint
+### C. Manually Extract the OpenShift API Endpoint
 ```bash
 oc status | grep https
 ```
-![API Status](../assets/images/0a149016-d063-4b89-9e2a-0f9cda588392.png)
+Copy the HTTPS endpoint (e.g., https://api.<><>:6443) and append /openid/v1/jwks to it — the full URL should look like: https://api.<><>:6443/openid/v1/jwks
+
+```bash
+curl -k https://api.<><>:6443/openid/v1/jwks
+```
+Check if the JWKS response is returned.
 
 ## 2. Define the JWT Authenticator Policy
-![JWT Policy](../assets/images/94436b0d-df6d-4623-b463-0593bf43b21f.png)
 
 ```bash
 conjur policy load -f jwt-authn-automation.yml -b root
