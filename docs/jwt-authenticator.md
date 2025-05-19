@@ -16,8 +16,8 @@ This deployment guide is based on `jwks-uri` (when the Service Account Issuer Di
 - Required access: ClusterRole `system:service-account-issuer-discovery` or output from someone with this access
 - !Replace "oc" commands with "kubectl" if you are using Openshift.
 
-
-### 0.1 Retrieve JWT Configuration
+<details> 
+### <summary> 0.1 Retrieve JWT Configuration
 
 ##### A. Get JWKS and save it as "jwks.json"
 ```bash
@@ -41,7 +41,8 @@ Copy the HTTPS endpoint (e.g., https://api.<><>:6443) and append /openid/v1/jwks
 curl -k https://api.<><>:6443/openid/v1/jwks
 ```
 Check if the JWKS response is returned.
-
+</summary>
+</details>
 ## 2. Define the JWT Authenticator Policy
 
 ```bash
