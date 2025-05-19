@@ -56,8 +56,17 @@ And save the output
 
 
 ```yaml
+- !group admins
+- !permit
+  role: !group admins
+  privileges:
+    - create
+    - update
+    - read
+  resources:
+    - !policy root
 - !grant
   role: !group admins
   members:
-    - !user AnsibleConjurIntegration/AnsibleAutomationConjurUser
+    - !user AnsibleAutomationConjurUser@AnsibleConjurIntegration                                            
 ``
