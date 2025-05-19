@@ -44,7 +44,7 @@ JWKS response is returned? -> If Yes, proceed with the next steps.
 
 </details>
 
-**🔷 **CyberArk Conjur Side** 🔷**
+**🔷⬇️	 **CyberArk Conjur Side** ⬇️🔷**
 
 ## 1. Define the JWT Authenticator Policy
 ```yaml
