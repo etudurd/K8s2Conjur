@@ -12,12 +12,11 @@ More details [here](https://docs.cyberark.com/conjur-enterprise/latest/en/conten
 We need to retrieve / query the Openshift cluster resources first.
 This deployment guide is based on `jwks-uri` (when the Service Account Issuer Discovery service is not publicly available).
 
-- Required CLI tools: `kubectl`, `curl`, and `jq`
+- Required CLI tools: `kubectl` or `oc`, `curl`, and `jq`
 - Required access: ClusterRole `system:service-account-issuer-discovery` or output from someone with this access
 
-![Prerequisite output](../assets/images/c3a54909-7f51-4876-be23-7feb2b361de3.png)
 
-## 1. Retrieve JWT Configuration
+### 1. Retrieve JWT Configuration
 
 ### A. Get JWKS
 ```bash
