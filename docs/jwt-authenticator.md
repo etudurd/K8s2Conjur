@@ -1,10 +1,11 @@
 # Set Up JWT Authenticator for CyberArk Conjur
 
-This guide explains how to configure the JWT Authenticator in CyberArk Conjur to work with an OpenShift or Kubernetes cluster.
 The JWT authentication is a generic, secure method for applications running on various platforms to authenticate to Conjur using a unique identity token or a third-party machine identity signed by a JWT provider.
+
+This guide explains how to configure the JWT Authenticator in CyberArk Conjur to work with an OpenShift or Kubernetes cluster.
+
 More details here. 
 
-![image](https://github.com/user-attachments/assets/07ebe70f-e54d-45a7-b868-5053a4e77fe6)
 
 ## 0. Prerequisites
 
