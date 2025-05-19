@@ -7,7 +7,6 @@ This document describes a Conjur policy used to securely integrate an Ansible Au
 ## 🔐 Conjur Policy (YAML)
 
 ```yaml
-
 - !policy
   id: AnsibleConjurIntegration
   body:
@@ -68,5 +67,5 @@ And save the output
 - !grant
   role: !group admins
   members:
-    - !user AnsibleAutomationConjurUser@AnsibleConjurIntegration                                            
-``
+    - !user AnsibleAutomationConjurUser@AnsibleConjurIntegration
+```                                         
