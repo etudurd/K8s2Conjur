@@ -14,15 +14,15 @@ This deployment guide is based on `jwks-uri` (when the Service Account Issuer Di
 
 - Required CLI tools: `kubectl` or `oc`, `curl`, and `jq`
 - Required access: ClusterRole `system:service-account-issuer-discovery` or output from someone with this access
+- !Replace "oc" commands with "kubectl" if you are using Openshift.
 
 
 ### 1. Retrieve JWT Configuration
 
-### A. Get JWKS
+#### A. Get JWKS
 ```bash
 oc get --raw $(oc get --raw /.well-known/openid-configuration | jq -r '.jwks_uri') > jwks.json
 ```
-![JWKS Output](../assets/images/e6c3cffd-e410-403a-b789-f447d1143cba.png)
 
 ### B. Check OpenID Config
 ```bash
