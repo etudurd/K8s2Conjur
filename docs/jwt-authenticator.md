@@ -109,11 +109,12 @@ Transfer `jwks.json` to the Conjur CLI host, then run:
 ```bash
 conjur variable set -i conjur/authn-jwt/dev-cluster-automation/public-keys -v "{\"type\":\"jwks\", \"value\":$(cat jwks.json)}"
 conjur variable set -i conjur/authn-jwt/dev-cluster-automation/issuer -v https://kubernetes.default.svc
-conjur variable set -i conjur/authn-jwt/dev-cluster-automation/token-app-property -v sub
+conjur variable set -i conjur/authn-jwt/dev-cluster-automation/token-app-property -v "sub"
 conjur variable set -i conjur/authn-jwt/dev-cluster-automation/identity-path -v app-path
-conjur variable set -i conjur/authn-jwt/dev-cluster-automation/audience -v https://conjur.host.name/
+conjur variable set -i conjur/authn-jwt/dev-cluster-automation/audience -v "https://conjur.host.name/"
+
 ```
-![Variable Set](../assets/images/324ae71f-b4ff-44ae-9678-3117c37d787c.png)
+
 
 **🔷⬇️	 **CyberArk Conjur Side** ⬇️🔷**
 
