@@ -82,6 +82,7 @@ JWKS response is returned? -> If Yes, proceed with the next steps.
       privilege: [ read ]
       resource: !webservice status
 ```
+Save the yaml (jwt-authn-automation.yml) and Run using the Conjur CLI: 
 
 ```bash
 conjur policy load -f jwt-authn-automation.yml -b root
