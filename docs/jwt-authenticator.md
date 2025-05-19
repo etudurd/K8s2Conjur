@@ -19,19 +19,19 @@ This deployment guide is based on `jwks-uri` (when the Service Account Issuer Di
 
 ### 0.1 Retrieve JWT Configuration
 
-#### A. Get JWKS and save it as "jwks.json"
+##### A. Get JWKS and save it as "jwks.json"
 ```bash
 oc get --raw $(oc get --raw /.well-known/openid-configuration | jq -r '.jwks_uri') > jwks.json
 ```
 
-### B. Check OpenID Config and if there is an output being retrieved: 
+##### B. Check OpenID Config and if there is an output being retrieved: 
 ```bash
 oc get --raw /.well-known/openid-configuration
 curl -k https://<your-cluster>/openid/v1/jwks
 ```
 **If no output is returned, try the following:**
 
-### C. Manually Extract the OpenShift API Endpoint
+##### C. Manually Extract the OpenShift API Endpoint
 ```bash
 oc status | grep https
 ```
