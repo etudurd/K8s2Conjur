@@ -38,7 +38,7 @@ This document describes a Conjur policy used to securely integrate an Ansible Au
   - !permit
     role: !host AAP-node
     privileges: [ read, execute ]
-   resources: *variables
+    resources: *variables
 
     # Create admin group
   - !group admins
