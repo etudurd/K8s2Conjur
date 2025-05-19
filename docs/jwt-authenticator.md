@@ -44,7 +44,8 @@ JWKS response is returned? -> If Yes, proceed with the next steps.
 
 </details>
 
-## <span style="color:blue">Conjur Side</span>
+<span style="color:#3498db">Conjur Side</span>
+
 ## 1. Define the JWT Authenticator Policy
 ```yaml
 - !policy
