@@ -229,4 +229,19 @@ openssl s_client -showcerts -connect <Replace with CONJUR-LEADER DNS address>ama
 **Output:**
 ![AAP-integration](images/6-s.png)
 
+Press Test and Save 
+
+###Optional: Test Connection
+
+Click the Test button and replace the value with the path of a variable defined in your CyberArk Conjur policy — for example: AnsibleConjurIntegration/conjur_host  + Run
+
+
+![AAP-integration](images/7-s.png)
+
+
+
+
+
+
+
 
