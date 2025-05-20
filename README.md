@@ -22,7 +22,9 @@ K8s2Conjur performs the following steps
 
 <img src="docs/images/steps.png" alt="Project Logo Placeholder" width="625"/>
 
-#
+## Simplified Architecture 
+
+<img src="docs/images/steps-a.png" alt="Project Logo Placeholder" width="625"/>
 
 ## 🖼️ Project Overview
 
