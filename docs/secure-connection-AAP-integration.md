@@ -84,3 +84,8 @@ Save the output. As we can observe, **two API keys are generated: one for config
   members:
     - !user AnsibleAutomationConjurUser@AnsibleConjurIntegration
 ```                                         
+
+Save the policy above as: ** aap-user-jwt-access.yaml ** and run:
+```bash
+conjur policy load -f aap-user-jwt-access.yaml -b root
+```
