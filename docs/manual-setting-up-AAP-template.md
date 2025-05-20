@@ -1,4 +1,4 @@
-<img width="1182" alt="image" src="https://github.com/user-attachments/assets/e1360aa9-8fc5-427b-9db7-dea10885d93c" /># ⚙️ Configuring the Automation
+# ⚙️ Configuring the Automation
 
 Supposing the Plugin was defined and the connection between AAP and Conjur was secured.
 
