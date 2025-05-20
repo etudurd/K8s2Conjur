@@ -47,6 +47,7 @@ Credentials: Press on the loop -> Selected Category -> "Conjur Automation Settin
 Navigate to **Resources -> Templates** -> Press on the template K8s2Conjur Automation Project Scan Template 2025 -> Survey and define the following fields
 
 <img src="images/16-s.png" alt="AAP Integration" width="350"/>
+
 ```yaml
 Q1: 🔄 Provide the name of the Service Account used by the application to be onboarded 
 Description: (This is required for assigning JWT permissions to your app)
@@ -63,8 +64,9 @@ Answer variable name: deployment_name
 Q4: 🔐 Enter the name of the Conjur JWT Authenticator that will validate the workload
 Description: (e.g., authn-jwt/dev-cluster-automation)
 Answer variable name: authenticator_id
-```
 
+```
+<img src="images/17-s.png" alt="AAP Integration" width="350"/>
 
 # Step 3 Run the Automation and fill the requested details
 
