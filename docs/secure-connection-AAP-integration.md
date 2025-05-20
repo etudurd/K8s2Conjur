@@ -201,7 +201,31 @@ Name: Conjur Demo
 
 ## C. Configure CyberArk Conjur Secrets Manager Lookup Plugin
 
-**Navigate to Resources -> Credentials ** and press **Add**
+Navigate to **Resources -> Credentials** and press **Add**
 
 ![AAP-integration](images/5-s.png)
+
+Search for **Credential Type: CyberArk Conjur Secrets Manager Lookup**
+And fill the fields accordingly: 
+
+```yaml
+
+Name: Conjur AAP Integration
+Description: Conjur AAP Integration
+Organization: Conjur Demo (replace with your own organization)
+Credential Type: CyberArk Conjur Secrets Manager Lookup
+Conjur URL: https://<Replace with CONJUR-LEADER DNS address>amazonaws.com
+Username: host/AnsibleConjurIntegration/AAP-node
+API Key: copy the API key resulted after applying the first policy above associated to host/AnsibleConjurIntegration/AAP-node identity (not the AnsibleUser)
+Public Key Certificate: # Copy the contents of your Conjur public key
+Account: poc-conjur  #replace with your Conjur Leader/Instance account name 
+
+```
+**!Note: you can retrieve the Conjur public key by running a command like**
+
+```bash
+openssl s_client -showcerts -connect <Replace with CONJUR-LEADER DNS address>amazonaws.com:443 < /dev/null 2> /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > conjur.pem
+```
+
+
 
