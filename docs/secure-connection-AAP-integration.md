@@ -201,4 +201,7 @@ Name: Conjur Demo
 
 ## C. Configure CyberArk Conjur Secrets Manager Lookup Plugin
 
+**Navigate to Resources -> Credentials ** and press **Add**
+
+![AAP-integration](images/5-s.png)
 
