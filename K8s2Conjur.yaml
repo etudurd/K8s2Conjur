@@ -365,3 +365,5 @@
         - "🚀 Secrets Provider sidecar injected into the Kubernetes Deployment"
         - "🔁 Role and RoleBinding for secret access successfully created in namespace '{{ k8s_namespace }}'"
         - "✅ K8s2Conjur Automation Completed Successfully ✅"
+      loop_control:
+        label: ""
