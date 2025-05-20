@@ -224,7 +224,7 @@ Account: poc-conjur  #replace with your Conjur Leader/Instance account name
 **!Note: you can retrieve the Conjur public key by running a command like**
 
 ```bash
-openssl s_client -showcerts -connect <Replace with CONJUR-LEADER DNS address>amazonaws.com:443 < /dev/null 2> /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > conjur.pem
+openssl s_client -showcerts -connect <Replace-with-CONJUR-LEADER-DNS-address>.com:443 < /dev/null 2> /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > conjur.pem
 ```
 **Output:**
 ![AAP-integration](images/6-s.png)
