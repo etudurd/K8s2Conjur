@@ -1,0 +1,19 @@
+- !policy
+  id: secrets
+  body:
+    - !group consumers
+    - &variables
+{% for key in conjur_prefixed_secret_keys %}
+      - !variable
+        id: {{ key }}
+        annotations:
+          created_by: "system:serviceaccount:{{ k8s_namespace }}:{{ service_account }}"
+{% endfor %}
+    - !permit
+      role: !group consumers
+      privilege: [ read, execute ]
+      resource: *variables
+
+- !grant
+  role: !group secrets/consumers
+  member: !host app-path/system:serviceaccount:{{ k8s_namespace }}:{{ service_account }}
