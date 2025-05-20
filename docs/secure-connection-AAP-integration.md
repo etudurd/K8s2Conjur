@@ -55,7 +55,9 @@ Login to Conjur by using the CLI
 
 ```
 
-And save the output
+And save the output as "aap-integration.yaml" and run the following command: 
+
+
 
 ## 🔐 Grant Access to the AnsibleAutomationConjurUser to the JWT authenticator - which is linked to Root Branch, not incapsulated in the policy above (YAML)
 
