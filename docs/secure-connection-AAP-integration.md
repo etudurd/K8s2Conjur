@@ -127,6 +127,7 @@ Navigate to Administration → Credential Types in the AAP/AWX UI to perform thi
 Click on "Add" and Fill the form as:
 
 **Name**: Conjur Automation Settings
+
 **Description**: Conjur Automation Connection Parameters
 
 And for **Input Configuration** + **Injector** **Configuration** copy/paste the following: 
