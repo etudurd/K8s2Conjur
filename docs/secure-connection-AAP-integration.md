@@ -236,7 +236,8 @@ Press Test and Save
 Click the Test button and replace the value with the path of a variable defined in your CyberArk Conjur policy — for example: AnsibleConjurIntegration/conjur_host  + Run
 
 
-![AAP-integration](images/7-s.png)
+<img src="images/7-s.png" alt="AAP Integration Test" width="200"/>
+
 
 
 
