@@ -14,8 +14,15 @@ K8s2Conjur performs the following steps
 
 ---
 ## Features: Before and After using the automation
-
+### Manual steps
+<img src="docs/images/manual.png" alt="Project Logo Placeholder" width="625"/>
 <img src="docs/images/before-after.png" alt="Project Logo Placeholder" width="625"/>
+
+## Steps:
+
+<img src="docs/images/steps.png" alt="Project Logo Placeholder" width="625"/>
+
+#
 
 ## 🖼️ Project Overview
 
