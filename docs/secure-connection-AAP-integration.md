@@ -64,7 +64,7 @@ conjur policy load -f aap-integration.yaml -b root
 ![AAP-integration](images/1-s.png)
 
 
-**Save the output. As we can observe, two API keys are generated: one for configuring the Ansible plugin to connect with the Conjur host (host:AnsibleConjurIntegration/AAP-node), and another for the automation itself to interact with the Conjur API and onboard the scanned Kubernetes deployments (user:AnsibleAutomationConjurUser@AnsibleConjurIntegration). **
+**Save the output. As we can observe, two API keys are generated: one for configuring the Ansible plugin to connect with the Conjur Leader/Follower. (host:AnsibleConjurIntegration/AAP-node), and another for the automation itself to interact with the Conjur API and onboard the scanned Kubernetes deployments (user:AnsibleAutomationConjurUser@AnsibleConjurIntegration). **
 
 ## 🔐 Grant Access to the AnsibleAutomationConjurUser to the JWT authenticator - which is linked to Root Branch, not incapsulated in the policy above (YAML)
 
