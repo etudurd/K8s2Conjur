@@ -122,6 +122,8 @@ conjur variable set -i AnsibleConjurIntegration/ocp_token -v sha256~<><><><5ziWW
 
 Navigate to Administration → Credential Types in the AAP/AWX UI to perform this configuration.
 
+![AAP-integration](images/2-s.png)
+
 Click on "Add" and Fill the form as:
 
 **Name**: Conjur Automation Settings
