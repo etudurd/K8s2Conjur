@@ -114,3 +114,73 @@ conjur variable set -i AnsibleConjurIntegration/ocp_token -v sha256~<><><><5ziWW
 
 ```
 
+# Step 3 Configure AAP/AWX - Conjur Plugin
+
+**🔴⬇️	 **Ansible Side** ⬇️🔴**
+
+## A. Administration -> Credential Types
+
+Navigate to Administration → Credential Types in the AAP/AWX UI to perform this configuration.
+
+Click on "Add" and Fill the form as:
+
+**Name**: Conjur Automation Settings
+**Description**: Conjur Automation Connection Parameters
+
+And for **Input Configuration** + **Injector** **Configuration** copy/paste the following: 
+
+**Press Save. **
+
+**Input configuration Yaml:**
+
+```yaml
+
+fields:
+  - id: conjur_account
+    type: string
+    label: Conjur Account
+    secret: false
+  - id: conjur_host
+    type: string
+    label: Conjur Host
+    secret: false
+  - id: conjur_password
+    type: string
+    label: Conjur Password (API Key)
+    secret: true
+  - id: conjur_username
+    type: string
+    label: Conjur Username
+    secret: false
+  - id: ocp_api_host
+    type: string
+    label: OpenShift API Host
+    secret: false
+  - id: ocp_token
+    type: string
+    label: OpenShift Bearer Token
+    secret: true
+required:
+  - conjur_account
+  - conjur_host
+  - conjur_password
+  - conjur_username
+  - ocp_api_host
+  - ocp_token
+
+```yaml
+
+**Injector Configuration Yaml** 
+
+```yaml
+
+extra_vars:
+  ocp_token: '{{ ocp_token }}'
+  conjur_host: '{{ conjur_host }}'
+  ocp_api_host: '{{ ocp_api_host }}'
+  conjur_account: '{{ conjur_account }}'
+  conjur_password: '{{ conjur_password }}'
+  conjur_username: '{{ conjur_username }}'
+```
+
+
