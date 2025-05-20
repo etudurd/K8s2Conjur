@@ -108,7 +108,7 @@ conjur variable set -i AnsibleConjurIntegration/conjur_username -v AnsibleAutoma
 
 conjur variable set -i AnsibleConjurIntegration/ocp_api_host -v api.cluster.emea-lab.cybr:6443   #replace with your Openshift/K8 Server address
 
-conjur variable set -i AnsibleConjurIntegration/ocp_token -v sha256~i8aU9jMD8Lu_AnFqC36_MfUlktGI_r6G0Ce5ziWWLbg  #replace with your Openshift/K8 API token
+conjur variable set -i AnsibleConjurIntegration/ocp_token -v sha256~<><><><5ziWWLbg  #replace with your Openshift/K8 API token
 
-
+```
 
