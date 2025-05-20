@@ -273,5 +273,6 @@ OpenShift Bearer Token: AnsibleConjurIntegration/ocp_token
 ```
 
 **Output:**
-<img src="images/10-s.png" alt="AAP Integration" width="400"/>
+
+<img src="images/10-s.png" alt="AAP Integration" width="420"/>
 
