@@ -199,4 +199,6 @@ Name: Conjur Demo
 ![AAP-integration](images/4-s.png)
 
 
+## C. Configure CyberArk Conjur Secrets Manager Lookup Plugin
+
 
