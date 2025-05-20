@@ -1,4 +1,4 @@
-# K8s2Conjur
+# <img src="docs/images/logo-placeholder.png" alt="Project Logo Placeholder" width="835"/>
 End-to-end automation to Discover, Onboard and Secure Kubernetes workloads and secrets with CyberArk Conjur via AAP.
 
 <img src="docs/images/logo-placeholder.png" alt="Project Logo Placeholder" width="835"/>
