@@ -89,3 +89,26 @@ Save the policy above as: ** aap-user-jwt-access.yaml ** and run:
 ```bash
 conjur policy load -f aap-user-jwt-access.yaml -b root
 ```
+
+# Step 2 Inject the connection values to the variables created above:
+
+From the Conjur CLI run the following commands:
+
+```bash
+
+conjur variable set -i AnsibleConjurIntegration/conjur_account -v poc-conjur    #replace poc-conjur with your Conjur account name
+
+conjur variable set -i AnsibleConjurIntegration/conjur_host -v ec2<>.compute.amazonaws.com  #replace with your Conjur Leader/Follower DNS address
+
+#replace with the API key resulted after applying the first policy - associated with the user AnsibleAutomationConjurUser@AnsibleConjurIntegration
+
+conjur variable set -i AnsibleConjurIntegration/conjur_password -v 2041APIKEY  
+
+conjur variable set -i AnsibleConjurIntegration/conjur_username -v AnsibleAutomationConjurUser@AnsibleConjurIntegration
+
+conjur variable set -i AnsibleConjurIntegration/ocp_api_host -v api.cluster.emea-lab.cybr:6443   #replace with your Openshift/K8 Server address
+
+conjur variable set -i AnsibleConjurIntegration/ocp_token -v sha256~i8aU9jMD8Lu_AnFqC36_MfUlktGI_r6G0Ce5ziWWLbg  #replace with your Openshift/K8 API token
+
+
+
