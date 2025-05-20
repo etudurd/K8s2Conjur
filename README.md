@@ -3,7 +3,7 @@ End-to-end automation to Discover, Onboard and Secure Kubernetes workloads and s
 
 ```
 
-> **K8s2Conjur is a fully automated onboarding framework** that scans Kubernetes or OpenShift workloads and securely integrates both applications and secrets into **CyberArk Conjur Enterprise**.
+**K8s2Conjur is a fully automated onboarding framework** that scans Kubernetes or OpenShift workloads and securely integrates both applications and secrets into **CyberArk Conjur Enterprise**.
 
 This solution goes beyond secret injection — it dynamically **onboards the application itself** into Conjur by:
 - 📦 Scanning live workloads for secret usage (`env`, volumeMounts)
