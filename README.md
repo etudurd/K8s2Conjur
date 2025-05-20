@@ -1,4 +1,4 @@
-# <img src="docs/images/logo-placeholder-short.png" alt="Project Logo Placeholder" width="625"/>
+# <img src="docs/images/logo-placeholder-short.png" alt="Project Logo Placeholder" width="725"/>
 
 **K8s2Conjur is a fully automated onboarding framework** that scans Kubernetes or OpenShift workloads and securely integrates both applications and secrets into **CyberArk Conjur Enterprise**.
 
