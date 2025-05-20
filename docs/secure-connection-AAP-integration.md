@@ -212,9 +212,9 @@ And fill the fields accordingly:
 
 Name: Conjur AAP Integration
 Description: Conjur AAP Integration
-Organization: Conjur Demo (replace with your own organization)
+Organization: Conjur Demo #replace with your own organization
 Credential Type: CyberArk Conjur Secrets Manager Lookup
-Conjur URL: https://<Replace with CONJUR-LEADER DNS address>amazonaws.com
+Conjur URL: https://<Replace-with-CONJUR-LEADER DNS address>.com
 Username: host/AnsibleConjurIntegration/AAP-node
 API Key: copy the API key resulted after applying the first policy above associated to host/AnsibleConjurIntegration/AAP-node identity (not the AnsibleUser)
 Public Key Certificate: # Copy the contents of your Conjur public key
@@ -226,6 +226,7 @@ Account: poc-conjur  #replace with your Conjur Leader/Instance account name
 ```bash
 openssl s_client -showcerts -connect <Replace with CONJUR-LEADER DNS address>amazonaws.com:443 < /dev/null 2> /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > conjur.pem
 ```
-
+**Output:**
+![AAP-integration](images/6-s.png)
 
 
