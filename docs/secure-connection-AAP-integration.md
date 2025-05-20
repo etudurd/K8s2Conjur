@@ -61,6 +61,7 @@ And save the output as "aap-integration.yaml" and run the following command:
 conjur policy load -f aap-integration.yaml -b root
 ```
 
+![AAP-integration](docs/images/1-s.png)
 
 
 ## 🔐 Grant Access to the AnsibleAutomationConjurUser to the JWT authenticator - which is linked to Root Branch, not incapsulated in the policy above (YAML)
