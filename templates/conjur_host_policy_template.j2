@@ -1,0 +1,14 @@
+- !policy
+  id: app-path
+  body:
+    - !host
+      id: system:serviceaccount:{{ k8s_namespace }}:{{ service_account }}
+      annotations:
+        authn-jwt/{{ authenticator_id }}/kubernetes.io/namespace: {{ k8s_namespace }}
+        authn-jwt/{{ authenticator_id }}/kubernetes.io/serviceaccount/name: {{ service_account }}
+
+- !grant
+  roles:
+  - !group conjur/authn-jwt/{{ authenticator_id }}/apps
+  members:
+  - !host app-path/system:serviceaccount:{{ k8s_namespace }}:{{ service_account }}
