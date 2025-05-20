@@ -1,4 +1,4 @@
-# ⚙️ Configuring the Automation
+<img width="1182" alt="image" src="https://github.com/user-attachments/assets/e1360aa9-8fc5-427b-9db7-dea10885d93c" /># ⚙️ Configuring the Automation
 
 Supposing the Plugin was defined and the connection between AAP and Conjur was secured.
 
@@ -70,4 +70,8 @@ Answer variable name: authenticator_id
 
 # Step 3 Run the Automation and fill the requested details
 
+Everything is now complete, no additional steps are required. 
+The automation is ready to use. **Simply click "Run" on the template and fill in the necessary details**. That’s it!
+
+<img src="images/18-s.png" alt="AAP Integration" width="420"/>
 
