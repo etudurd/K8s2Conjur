@@ -44,7 +44,7 @@ Credentials: Press on the loop -> Selected Category -> "Conjur Automation Settin
 
 # Step 3 Configure the Survey
 
-Navigate to **Resources -> Templates** -> Press on the template K8s2Conjur Automation Project Scan Template 2025 -> Survey and define the following fields
+Navigate to **Resources -> Templates** -> P**ress on the template K8s2Conjur Automation Project Scan Template 2025** -> **Survey** and define the following fields
 
 <img src="images/16-s.png" alt="AAP Integration" width="350"/>
 
