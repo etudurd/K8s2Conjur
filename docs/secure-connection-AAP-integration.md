@@ -1,7 +1,8 @@
 # 🛡️ Ansible ↔️ Conjur Integration Policy
 
 This document describes a Conjur policy used to securely integrate an Ansible Automation Platform (AAP) environment with CyberArk Conjur. It defines identities, secrets, and permissions required for automated access to sensitive data.
-## To enhance the security of the automation, we leverage the established integration between Ansible Automation Platform (AAP) and Conjur. This allows AAP to securely retrieve required variables through a dedicated, non-admin identity (ansible-automation-user). This identity is used to run Conjur commands and manage policies without exposing sensitive credentials. All secrets needed by the automation have been securely onboarded into Conjur, enabling AAP to access them seamlessly. As a result, the number of input fields in the automation template has been reduced from 10 to just 4—removing the need to manually enter Conjur credentials, OCP tokens, or other sensitive data, and significantly reducing the risk of exposure while simplifying the overall workflow.
+
+Note: To enhance the security of the automation, we leverage the established integration between Ansible Automation Platform (AAP) and Conjur. This allows AAP to securely retrieve required variables through a dedicated, non-admin identity (ansible-automation-user). This identity is used to run Conjur commands and manage policies without exposing sensitive credentials. All secrets needed by the automation have been securely onboarded into Conjur, enabling AAP to access them seamlessly. As a result, the number of input fields in the automation template has been reduced from 10 to just 4—removing the need to manually enter Conjur credentials, OCP tokens, or other sensitive data, and significantly reducing the risk of exposure while simplifying the overall workflow.
 
 
 
