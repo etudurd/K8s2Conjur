@@ -357,7 +357,7 @@
     - name: ✅ K8s2Conjur Final Summary
       debug:
       msg: |
-        🎉✅ K8s2Conjur Automation Completed Successfully ✅🎉
+        ✅ K8s2Conjur Automation Completed Successfully ✅
         🛡️ Host identity '{{ new_host_id }}' onboarded to Conjur
         🔍 Application '{{ deployment_name }}' scanned for Kubernetes Secrets
         🔐 {{ secret_kv_pairs | length }} secret(s) extracted and onboarded to Conjur
