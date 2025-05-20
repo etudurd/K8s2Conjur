@@ -57,7 +57,7 @@
 
     - name: Debug if deployment exists
       debug:
-        msg: "❌ No deployment found with name '{{ deployment_name }}' in namespace '{{ k8s_namespace }}'."
+        msg: "❌ No deployment found with name '{{ deployment_name }}' in namespace '{{ k8s_namespace }}'.❌"
       when: dep_info.resources | length == 0
 
     # Step 2: Extract secret references from the deployment
@@ -157,7 +157,7 @@
     - name: Suggest improvements
       debug:
         msg: |
-          💡 Recommendations:
+          💡💡💡💡 Recommendations:
           {% for s in used_secrets %}
           - Secret '{{ s }}' might be a candidate for CyberArk Conjur integration.
             Consider replacing static secret with dynamic retrieval using the Secrets Provider sidecar or init container.
@@ -229,7 +229,7 @@
 
     - name: Validate host creation
       debug:
-        msg: "✅ Host '{{ new_host_id }}' was successfully registered in Conjur."
+        msg: "✅ K8s2Conjur ✅ Host '{{ new_host_id }}' was successfully registered in Conjur. ✅"
       when: new_host_id in conjur_resources | join(',')
 
     # Step 9: Generate variable & grant policy
@@ -280,7 +280,7 @@
     - name: Show uploaded secrets result
       debug:
         msg: |
-          ✅ Secret uploaded: {{ item.item.key }} → Status: {{ item.status }}
+          ✅ K8s2Conjur ✅ Secret uploaded: {{ item.item.key }} → Status: {{ item.status }}
       loop: "{{ secret_upload_result.results }}"
       when: item.status in [200, 201]
 
@@ -342,7 +342,7 @@
     - name: Show policy load result (final status)
       debug:
         msg: >
-          📜 Final policy load status:
+          📜 K8s2Conjur 📜 Final policy load status:
           - Host policy POST: {{ policy_load_response.status | default('N/A') }}
           - Variable policy POST: {{ secret_policy_result.status | default('N/A') }}
 
