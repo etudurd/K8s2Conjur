@@ -252,7 +252,7 @@ And fill the fields accordingly:
 ```yaml
 Name: Conjur AAP Automation Variables
 Organization: Conjur Demo #replace with your own organization
-Credential Type: CyberArk Conjur Secrets Manager Lookup
+Credential Type: Conjur Automation Settings
 ```
 
 **Click on the key icon next to the listed Path input boxes.**
