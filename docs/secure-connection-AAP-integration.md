@@ -240,9 +240,30 @@ Click the Test button and replace the value with the path of a variable defined 
 
 
 
+## D. Configure Conjur Secrets credential
 
 
+Navigate to **Resources -> Credentials** and press **Add** 
 
+Search for **Credential Type: Conjur Automation Settings**
 
+And fill the fields accordingly: 
 
+```yaml
+Name: Conjur AAP Automation Variables
+Organization: Conjur Demo #replace with your own organization
+Credential Type: CyberArk Conjur Secrets Manager Lookup
+```
 
+**Click on the key icon next to the listed Path input boxes.**
+**Select Conjur AAP integration**
+
+**And for each variable select the corresponding Path retrieved from Conjur, for example:**
+```bash
+Conjur Account: AnsibleConjurIntegration/conjur_account
+Conjur Host: AnsibleConjurIntegration/conjur_host
+Conjur Password (API Key): AnsibleConjurIntegration/conjur_password
+Conjur Username: AnsibleConjurIntegration/conjur_username
+OpenShift API Host: AnsibleConjurIntegration/ocp_api_host
+OpenShift Bearer Token: AnsibleConjurIntegration/ocp_token
+```
