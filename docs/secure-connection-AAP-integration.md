@@ -168,12 +168,11 @@ required:
   - ocp_api_host
   - ocp_token
 
-```yaml
+```
 
 **Injector Configuration Yaml** 
 
 ```yaml
-
 extra_vars:
   ocp_token: '{{ ocp_token }}'
   conjur_host: '{{ conjur_host }}'
