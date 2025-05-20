@@ -2,15 +2,6 @@
 
 **K8s2Conjur is a fully automated onboarding framework** that scans Kubernetes or OpenShift workloads and securely integrates both applications and secrets into **CyberArk Conjur Enterprise**.
 
-This solution goes beyond secret injection — it dynamically **onboards the application itself** into Conjur by:
-- 🔍 Scans Kubernetes/OpenShift workloads for referenced secrets (env vars, volumes)
-- 🏗️ Dynamically generates a **dedicated Host identity policy** in Conjur to represent the workload.
-- 🔐 Onboards discovered secrets into Conjur with their initial values.
-- 📜 Creates and loads granular Conjur policies: variables, permissions, access rules.
-- 🧩 Injecting the Secrets Provider sidecar to fetch secrets securely at runtime using **JWT-based authentication**
-- ⚙️ Automatically updating deployments with Conjur integration patches
-
-
 K8s2Conjur performs the following steps
 - 🔍 Scans Kubernetes/OpenShift workloads for referenced secrets (env vars, volumes)
 - 🔐 Onboards discovered secrets into Conjur with their initial values
@@ -22,6 +13,9 @@ K8s2Conjur performs the following steps
 - ✅ Ensures the workload fetches secrets securely at runtime — no hardcoded values or manual steps
 
 ---
+## Features: Before and After using the automation
+
+<img src="docs/images/before-after.png" alt="Project Logo Placeholder" width="625"/>
 
 ## 🖼️ Project Overview
 
