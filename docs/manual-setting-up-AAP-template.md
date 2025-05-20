@@ -21,6 +21,12 @@ Source Control URL: ProjectAddress
 <img src="images/12-s.png" alt="AAP Integration" width="420"/>
 
 
+# Step 2 Define the Template
+
+Navigate to **Resources -> Templates** and press **Add** 
+
+<img src="images/13-s.png" alt="AAP Integration" width="420"/>
+
 🔷⬇️ CyberArk Conjur Side ⬇️🔷
 
 Login to Conjur by using the CLI
