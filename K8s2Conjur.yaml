@@ -354,7 +354,7 @@
           conjur policy load -f {{ variable_policy_rendered_file }} -b root
     
     #am adaugat un rezumat cu emoji sa arate mai bine din punct de vedere al utilizatorului @etudurd
-    - name: ✅ K8s2Conjur Final Summary (line-by-line)
+    - name: ✅ K8s2Conjur Rezumat 
       debug:
         msg: "{{ summary_message.split('\n') }}"
       vars:
@@ -365,4 +365,5 @@
            - "📜 Host & variable policies created and loaded (HTTP {{ policy_load_response.status }} / {{ secret_policy_result.status }})"
            - "🚀 Secrets Provider sidecar injected into the Kubernetes Deployment"
            - "🔁 Role and RoleBinding for secret access successfully created in namespace '{{ k8s_namespace }}'"
+           - "== JWT Authentication enabled =="
            - "✅ K8s2Conjur Automation Completed Successfully ✅"
