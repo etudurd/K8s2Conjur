@@ -1,4 +1,3 @@
-
 - name: Scan app for Kubernetes Secret usage and authenticate to Conjur
   hosts: localhost
   gather_facts: false
