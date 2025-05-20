@@ -1,14 +1,28 @@
 # K8s2Conjur
 End-to-end automation to Discover, Onboard and Secure Kubernetes workloads and secrets with CyberArk Conjur via AAP.
 
+![Project Logo Placeholder](images/logo-placeholder.png)
 
 **K8s2Conjur is a fully automated onboarding framework** that scans Kubernetes or OpenShift workloads and securely integrates both applications and secrets into **CyberArk Conjur Enterprise**.
 
 This solution goes beyond secret injection — it dynamically **onboards the application itself** into Conjur by:
-- 📦 Scanning live workloads for secret usage (`env`, volumeMounts)
-- 🛠 Generating and applying Host and Variable policies per workload
+- 🔍 Scans Kubernetes/OpenShift workloads for referenced secrets (env vars, volumes)
+- 🏗️ Dynamically generates a **dedicated Host identity policy** in Conjur to represent the workload.
+- 🔐 Onboards discovered secrets into Conjur with their initial values.
+- 📜 Creates and loads granular Conjur policies: variables, permissions, access rules.
 - 🧩 Injecting the Secrets Provider sidecar to fetch secrets securely at runtime using **JWT-based authentication**
 - ⚙️ Automatically updating deployments with Conjur integration patches
+
+
+K8s2Conjur performs the following steps:
+- 🔍 Scans Kubernetes/OpenShift workloads for referenced secrets (env vars, volumes)
+- 🔐 Onboards discovered secrets into Conjur with their initial values
+- 🏗️ Dynamically generates a **dedicated Host identity and policy** in Conjur to represent the workload
+- 📜 Creates and loads granular Conjur policies: variables, permissions, access rules
+- ✅ Create and apply a ConfigMap in the app namespace with Conjur configuration (appliance URL, Conjur public cert, authenticator ID, etc.).
+- 🛠️ Automatically patch the Kubernetes deployment to replace hardcoded secrets with Conjur references and inject the CyberArk Secrets Provider as a sidecar.
+- ✅ Create and bound RBAC resources (Role & RoleBinding) that give the Secrets Provider the ability to read and update Kubernetes secrets in the application
+- ✅ Ensures the workload fetches secrets securely at runtime — no hardcoded values or manual steps
 
 ---
 
