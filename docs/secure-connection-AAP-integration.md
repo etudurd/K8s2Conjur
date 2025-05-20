@@ -92,6 +92,8 @@ conjur policy load -f aap-user-jwt-access.yaml -b root
 
 # Step 2 Inject the connection values to the variables created above:
 
+🔷⬇️ CyberArk Conjur Side ⬇️🔷
+
 From the Conjur CLI run the following commands:
 
 ```bash
