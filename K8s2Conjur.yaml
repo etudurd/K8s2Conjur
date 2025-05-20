@@ -230,7 +230,7 @@
     - name: Validate host creation
       debug:
         msg: "✅ K8s2Conjur ✅ Host '{{ new_host_id }}' was successfully registered in Conjur. ✅"
-      when: new_host_id in conjur_resources | join(',')
+      when: new_host_id in conjur_resources #replaced new_host_id in conjur_resources | join(',')
 
     # Step 9: Generate variable & grant policy
     - name: Render Conjur variable+grant policy from template
