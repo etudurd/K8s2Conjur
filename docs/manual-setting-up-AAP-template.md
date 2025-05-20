@@ -33,11 +33,10 @@ Name: K8s2Conjur Automation Project Scan Template 2025
 Inventory: Demo Inventory #replace with your own inventory
 Description: E2E Automation Conjur+AAP+OC Tudor Urdes
 Playbook: K8s2Conjur.yaml
-**Credentials: Press on the loop -> Selected Category -> "Conjur Automation Settings" -> "Conjur AAP Automation Variables" **
-
-<img src="images/14-s.png" alt="AAP Integration" width="420"/>
+Credentials: Press on the loop -> Selected Category -> "Conjur Automation Settings" -> "Conjur AAP Automation Variables" 
 
 ```
+<img src="images/14-s.png" alt="AAP Integration" width="250"/>
 
 **Output**
 
