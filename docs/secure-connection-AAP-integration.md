@@ -187,3 +187,16 @@ extra_vars:
 Output: 
 ![AAP-integration](images/3-s.png)
 
+
+## B. Configure a new AAP/AWX Organization (Optional)
+
+Work will be done at AAP/AWX UI under Access -> Organizations, 
+1. Click Add
+2. Fill the form
+
+Name: Conjur Demo
+
+![AAP-integration](images/4-s.png)
+
+
+
