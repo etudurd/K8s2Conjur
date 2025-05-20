@@ -15,7 +15,7 @@ This solution goes beyond secret injection — it dynamically **onboards the app
 - ⚙️ Automatically updating deployments with Conjur integration patches
 
 
-K8s2Conjur performs the following steps:
+K8s2Conjur performs the following steps
 - 🔍 Scans Kubernetes/OpenShift workloads for referenced secrets (env vars, volumes)
 - 🔐 Onboards discovered secrets into Conjur with their initial values
 - 🏗️ Dynamically generates a **dedicated Host identity and policy** in Conjur to represent the workload
