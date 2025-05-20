@@ -256,7 +256,11 @@ Credential Type: CyberArk Conjur Secrets Manager Lookup
 ```
 
 **Click on the key icon next to the listed Path input boxes.**
+<img src="images/8-s.png" alt="AAP Integration" width="200"/>
+
 **Select Conjur AAP integration**
+
+<img src="images/9-s.png" alt="AAP Integration" width="200"/>
 
 **And for each variable select the corresponding Path retrieved from Conjur, for example:**
 ```bash
@@ -267,3 +271,7 @@ Conjur Username: AnsibleConjurIntegration/conjur_username
 OpenShift API Host: AnsibleConjurIntegration/ocp_api_host
 OpenShift Bearer Token: AnsibleConjurIntegration/ocp_token
 ```
+
+**Output:**
+<img src="images/10-s.png" alt="AAP Integration" width="400"/>
+
