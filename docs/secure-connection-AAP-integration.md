@@ -184,5 +184,6 @@ extra_vars:
   conjur_password: '{{ conjur_password }}'
   conjur_username: '{{ conjur_username }}'
 ```
-
+Output: 
+![AAP-integration](images/3-s.png)
 
