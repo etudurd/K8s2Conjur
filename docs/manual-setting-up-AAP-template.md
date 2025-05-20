@@ -10,6 +10,15 @@ Navigate to **Resources -> Projects** and press **Add**
 
 <img src="images/11-s.png" alt="AAP Integration" width="420"/>
 
+```yaml
+
+Name: K8s2Conjur Automation Project 2025
+Description: E2D Automation Conjur+AAP+OC Tudor Urdes
+Organization: Conjur Demo # replace with yours
+Source Control URL: ProjectAddress
+
+```
+<img src="images/12-s.png" alt="AAP Integration" width="420"/>
 
 
 🔷⬇️ CyberArk Conjur Side ⬇️🔷
