@@ -240,7 +240,7 @@ Click the Test button and replace the value with the path of a variable defined 
 
 
 
-## D. Configure Conjur Secrets credential
+## D. Configure Conjur Secrets credential Mapping
 
 
 Navigate to **Resources -> Credentials** and press **Add** 
