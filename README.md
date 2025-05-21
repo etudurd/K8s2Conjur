@@ -46,11 +46,11 @@ K8s2Conjur performs the following steps
 
 </details>
 
-## Prequisites 
+## Prerequisites
 <details> 
   <summary><><><>Click to expand<><><></summary>
     
-## ✅ Core Components
+### ✅ Core Components
 
 -  Access to an OpenShift or Kubernetes cluster  
   - The automation assumes permissions to create:  
@@ -61,7 +61,7 @@ K8s2Conjur performs the following steps
 -	The K8s/OC user if he doesn’t have cluster role permissions (super-user) he needs at least to have the following role added:
 **  system:service-account-issuer-discovery (ClusterRole permission) **
 
-## 🧰 Machine Requirements (AAP EE or Execution Node)
+### 🧰 Machine Requirements (AAP EE or Execution Node)
 
 - `conjur` CLI installed  
 - `kubectl\oc' or Kubernetes-compatible API client  
@@ -77,7 +77,7 @@ K8s2Conjur performs the following steps
 
 ---
 
-## 🔐 Security Best Practices
+### 🔐 Security Best Practices
 
 - Use a **dedicated Conjur Host identity** for automation access  
 - Store sensitive values securely in Conjur:
@@ -91,7 +91,7 @@ K8s2Conjur performs the following steps
 
 ---
 
-## 🌐 Network Requirements
+### 🌐 Network Requirements
 
 | Component                  | Needs Access To | Port | Purpose                                 |
 |---------------------------|-----------------|------|-----------------------------------------|
@@ -105,7 +105,7 @@ K8s2Conjur performs the following steps
 
 ---
 
-## 📦 Required Ansible Collection
+### 📦 Required Ansible Collection
 
 Install the `kubernetes.core` collection either via:
 
