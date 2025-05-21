@@ -103,6 +103,14 @@ K8s2Conjur performs the following steps
 
 ✅ Ensure **DNS resolution** works for both the OpenShift API and Conjur endpoints **from both AAP and OpenShift**.
 
+| Component              | Where it runs                                                    |
+| ---------------------- | ---------------------------------------------------------------- |
+| `K8s2Conjur.yaml`      | On the Ansible controller or execution environment (`localhost`) |
+| Kubernetes API actions | Remote → via HTTPS                                               |
+| Conjur API actions     | Remote → via HTTPS                                               |
+| SSH or node access     | ❌ Not needed — works entirely via APIs                           |
+
+
 ---
 
 ---
