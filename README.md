@@ -184,7 +184,7 @@ You can deploy this automation in minutes by either:
 - *(An automated installer is coming soon.)*
 
 ---
-### ▶️ Run the Automation
+#### ▶️ Run the Automation
 
 Once the setup above is complete, **run** the main playbook:
 
