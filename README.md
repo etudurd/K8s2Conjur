@@ -14,7 +14,7 @@ K8s2Conjur performs the following steps
 
 ## TL;DR —  Deployment of `K8s2Conjur` Automation
 <details>
-  <summary>**Click to expand**</summary>
+  <summary><><><>Click to expand<><><></summary>
 You can deploy this automation in minutes by either:
 
 - **Cloning this repository locally** and importing it into your AAP/AWX project, **OR**
