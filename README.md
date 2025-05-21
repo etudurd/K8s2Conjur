@@ -188,6 +188,7 @@ From the AAP/AWX GUI -> Template
 </details>
 
 
+
 📘 Documentation
 📄 Additional guides and walkthroughs:
 
@@ -206,26 +207,3 @@ Feel free to open a pull request or issue.
 📜 License
 This project is licensed under the MIT License.
 
-python
-Copy
-Edit
-
----
-
-Let me know if you'd like:
-- A `docs/index.md` generated from this for GitHub Pages
-- A styled banner/logo image
-- The 4 placeholder images pre-generated as PNGs (empty wireframes or boxes)
-
-I'm happy to help finish the launch kit.
-
-
-
-
-
-
-
-
-
-```bash
-ansible-playbook -i inventory playbook.yml
