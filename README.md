@@ -12,8 +12,8 @@ K8s2Conjur performs the following steps
 - ✅ Create and bound RBAC resources (Role & RoleBinding) that give the Secrets Provider the ability to read and update Kubernetes secrets in the application
 - ✅ Ensures the workload fetches secrets securely at runtime — no hardcoded values or manual steps
 
-## TL;DR —  Deployment of `K8s2Conjur` Automation
-
+<details>
+  <summary>## TL;DR —  Deployment of `K8s2Conjur` Automation (Click to expand)</summary>
 You can deploy this automation in minutes by either:
 
 - **Cloning this repository locally** and importing it into your AAP/AWX project, **OR**
@@ -55,7 +55,7 @@ Once the setup above is complete, **run** the main playbook:
 ```bash
 From the AAP/AWX GUI -> Template
 ```
-
+</details>
 ---
 ## Features: Before and After using the automation
 ### Manual steps
