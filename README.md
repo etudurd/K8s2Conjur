@@ -33,11 +33,11 @@ K8s2Conjur performs the following steps
   <summary><><><>Click to expand<><><></summary>
 
 ---
-## Features: Before and After using the automation
+### Features: Before and After using the automation
 <img src="docs/images/manual.png" alt="Project Logo Placeholder" width="625"/>
 <img src="docs/images/before-after.png" alt="Project Logo Placeholder" width="625"/>
 
-## Steps & Simplified Architecture 
+### Steps & Simplified Architecture 
 
 <img src="docs/images/steps.png" alt="Project Logo Placeholder" width="850"/>
 <img src="docs/images/steps-a.png" alt="Project Logo Placeholder" width="850"/>
