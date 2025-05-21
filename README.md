@@ -115,8 +115,9 @@ But for most use cases, manual copy-paste of the token is sufficient for the fir
 ## TL;DR —  Deployment of `K8s2Conjur` Automation
 <details>
   <summary><><><>Click to expand<><><></summary>
-You can deploy this automation in minutes by either:
 
+You can deploy this automation in minutes by either:
+    
 - **Cloning this repository locally** and importing it into your AAP/AWX project, **OR**
 - Referencing the **public GitHub repository** directly as the source in your AAP project.
 
