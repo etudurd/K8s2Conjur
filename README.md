@@ -12,7 +12,7 @@ K8s2Conjur performs the following steps
 - ✅ Create and bound RBAC resources (Role & RoleBinding) that give the Secrets Provider the ability to read and update Kubernetes secrets in the application
 - ✅ Ensures the workload fetches secrets securely at runtime — no hardcoded values or manual steps
 
-## 🚀 TL;DR — Fast Deployment of `K8s2Conjur` Automation
+## TL;DR —  Deployment of `K8s2Conjur` Automation
 
 You can deploy this automation in minutes by either:
 
@@ -20,30 +20,27 @@ You can deploy this automation in minutes by either:
 - Referencing the **public GitHub repository** directly as the source in your AAP project.
 
 ---
-
 ### 🔧 Required One-Time Preparations
 
 #### 1. ✅ Deploy JWT Authenticator (Manually)
 
-- This is a *security requirement* to isolate authentication per cluster.
+- This is a *security requirement* I used to isolate authentication per cluster. (1 JWT Authn required per K8s Cluster)
 - It’s a **one-time setup** and should be created manually for each Kubernetes/OCP cluster.
 - Follow the copy-paste-friendly guide here:  
   📄 [`docs/1-jwt-authenticator.md`](docs/1-jwt-authenticator.md)
 
 ---
-
 #### 2. 🔐 Secure Connection Between AAP and Conjur
 
 - Also a **one-time process** to safely onboard variables like:
   - `conjur_user` / `conjur_password`
   - `ocp_api_host`, `ocp_token`
-- These are securely fetched using a **dedicated low-privilege identity** (`ansible-automation-user`) to avoid exposing sensitive data.
+- These are securely fetched using a **dedicated identity** (`ansible-automation-user`) to avoid exposing sensitive data.
 - As a result, the AAP job template has been simplified from **10 input fields down to 4**.
 - Full guide available at:  
   📄 [`docs/2-secure-connection-AAP-integration.md`](docs/2-secure-connection-AAP-integration.md)
 
 ---
-
 #### 3. 📦 Set Up AAP Project, Job Template & Survey
 
 - Follow this **one-time setup guide** to manually configure the job template, project, and survey:  
@@ -51,7 +48,6 @@ You can deploy this automation in minutes by either:
 - *(An automated installer is coming soon.)*
 
 ---
-
 ### ▶️ Run the Automation
 
 Once the setup above is complete, **run** the main playbook:
