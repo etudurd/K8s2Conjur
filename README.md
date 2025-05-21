@@ -191,6 +191,8 @@ Once the setup above is complete, **run** the main playbook:
 ```bash
 From the AAP/AWX GUI -> Template
 ```
+---
+
 </details>
 
 
