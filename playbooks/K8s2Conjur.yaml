@@ -2,11 +2,11 @@
   hosts: localhost
   gather_facts: false
   vars:
-    policy_template_file: conjur_host_policy_template.j2
+    policy_template_file: ../templates/conjur_host_policy_template.j2
     policy_rendered_file: /tmp/conjur_app_path_policy.yaml
-    variable_policy_template_file: conjur_variables_template.j2
+    variable_policy_template_file: ../templates/conjur_variables_template.j2
     variable_policy_rendered_file: /tmp/conjur_generated_variables.yaml
-    secrets_provider_patch_template_file: secrets_provider_patch_template.yaml.j2
+    secrets_provider_patch_template_file: ../templates/secrets_provider_patch_template.yaml.j2
     secrets_provider_config_file: /tmp/updated_deployment_with_provider.yaml
     conjur_ssl_cert_path: /tmp/conjur.pem
 
