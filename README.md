@@ -27,15 +27,6 @@ K8s2Conjur performs the following steps
 <img src="docs/images/steps.png" alt="Project Logo Placeholder" width="850"/>
 <img src="docs/images/steps-a.png" alt="Project Logo Placeholder" width="850"/>
 
-## 🖼️ Project Overview
-
-![Project Logo Placeholder](images/logo-placeholder.png)
-
-![Architecture Diagram Placeholder](images/architecture-placeholder.png)
-
-![Onboarding Flow Placeholder](images/onboarding-steps-placeholder.png)
-
-![Integration Result Screenshot](images/integration-placeholder.png)
 ---
 
 </details>
