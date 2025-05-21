@@ -194,18 +194,6 @@ From the AAP/AWX GUI -> Template
 </details>
 
 
-
-📘 Documentation
-📄 Additional guides and walkthroughs:
-
-Secure AAP Integration
-
-JWT Authenticator Setup
-
-🌍 GitHub Pages Site (coming soon)
-Your documentation will be available here:
-📘 https://etudurd.github.io/K8s2Conjur/
-
 🤝 Contributing
 Have feedback or want to add support for other clusters?
 Feel free to open a pull request or issue.
