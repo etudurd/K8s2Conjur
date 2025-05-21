@@ -138,14 +138,6 @@ Extract:
 Identify your target namespace/project
 
 🔄 Optional: Automate Token Handling
-You can automate login or rotate tokens using:
-
-ServiceAccount tokens with projected audiences
-
-oc login automation
-
-Web console script extraction
-
 But for most use cases, manual copy-paste of the token is sufficient for the first setup.
 
 </details>
