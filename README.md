@@ -28,7 +28,7 @@ K8s2Conjur performs the following steps
   
   [SecretsProvider and other methods to securely fetch secrets in K8s; Set up workloads (JWT-based authn)](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s-jwt-set-up-apps.htm?tocpath=Integrations%7COpenShift%252FKubernetes%7CApp%20owner%253A%20Set%20up%20workloads%20in%20Kubernetes%7CSet%20up%20workloads%20(JWT-based%20authn)%7C_____0)
   
-## 🖼️ Project Overview & Architecture
+## Project Overview & Architecture
 <details> 
   <summary><><><>Click to expand<><><></summary>
 
