@@ -1,0 +1,17 @@
+namespace: etudurd
+name: k8s2conjur
+version: "1.0.0"
+readme: README.md
+authors:
+  - Tudor I. Urdes
+description: >
+  Automated Kubernetes workloads&secrets onboarding into CyberArk Conjur using Ansible Automation.
+license: MIT
+dependencies:
+  kubernetes.core: ">=2.3.2"
+tags:
+  - kubernetes
+  - conjur
+  - cyberark
+  - devsecops
+repository: https://github.com/etudurd/K8s2Conjur
