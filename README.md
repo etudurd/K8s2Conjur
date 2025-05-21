@@ -3,16 +3,26 @@
 **K8s2Conjur is a fully automated onboarding framework** that scans Kubernetes or OpenShift workloads and securely integrates both applications and secrets into **CyberArk Conjur Enterprise**.
 
 K8s2Conjur performs the following steps
-- 🔍 Scans Kubernetes/OpenShift workloads for referenced secrets (env vars, volumes)
+- 🔍 Scans workloads (Deployments, StatefulSets) for secrets referenced via environment variables and volumes
 - 🔐 Onboards discovered secrets into Conjur with their initial values
 - 🏗️ Dynamically generates a **dedicated Host identity and policy** in Conjur to represent the workload
-- 📜 Creates and loads granular Conjur policies: variables, permissions, access rules
+- 📜 Dynamically builds and loads Conjur policies including:
+      Variables for each secret
+      Access rules linking the workload identity to its secrets
+      Scoped permissions for least privilege
 - ✅ Create and apply a ConfigMap in the app namespace with Conjur configuration (appliance URL, Conjur public cert, authenticator ID, etc.).
 - 🛠️ Automatically patch the Kubernetes deployment to replace hardcoded secrets with Conjur references and inject the CyberArk Secrets Provider as a sidecar.
-- ✅ Create and bound RBAC resources (Role & RoleBinding) that give the Secrets Provider the ability to read and update Kubernetes secrets in the application
-- ✅ Ensures the workload fetches secrets securely at runtime — no hardcoded values or manual steps
+- 🔐 Create and bound RBAC resources (Role & RoleBinding) that give the Secrets Provider the ability to read and update Kubernetes secrets in the application
+- 🔁 Delivers secrets securely both at startup and at runtime via JWT-based authentication using the CyberArk Secrets Provider, which runs continuously alongside 
+  the application (side-car container). No hardcoded credentials, no manual secret management required.
 
-
+📘 Documentation
+  [What is CyberArk Conjur Enterprise?](https://docs.cyberark.com/conjur-enterprise/latest/en/content/enterprise/enterprise_vs_opensource.htm?tocpath=Get%20started%7C_____3)  
+  [OpenShift/Kubernetes Integration](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s_lp.htm?tocpath=Integrations%7COpenShift%252FKubernetes%7C_____0) 
+  [JWT Authentication](https://docs.cyberark.com/conjur-enterprise/latest/en/content/operations/services/cjr-authn-jwt-lp.htm?tocpath=Integrations%7CJWT%20Authentication%7C_____0)
+  [JWT-based Kubernetes authentication](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s-jwt-authn.htm)
+  [SecretsProvider and other methods to securely fetch secrets in K8s Set up workloads (JWT-based authentication)](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s-jwt-set-up-apps.htm?tocpath=Integrations%7COpenShift%252FKubernetes%7CApp%20owner%253A%20Set%20up%20workloads%20in%20Kubernetes%7CSet%20up%20workloads%20(JWT-based%20authn)%7C_____0)
+  
 ## 🖼️ Project Overview & Architecture
 <details> 
   <summary><><><>Click to expand<><><></summary>
