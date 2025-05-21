@@ -57,6 +57,7 @@ Once the setup above is complete, **run** the main playbook:
 From the AAP/AWX GUI -> Template
 ```
 </details>
+
 ---
 ## Features: Before and After using the automation
 ### Manual steps
