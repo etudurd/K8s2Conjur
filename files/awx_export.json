@@ -19,7 +19,7 @@
                "default_environment": null,
                "signature_validation_credential": null,
                "organization": {
-                    "name": "Conjur Demo2",
+                    "name": "Conjur Demo",
                     "type": "organization"
                },
                "related": {
