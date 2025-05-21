@@ -1,7 +1,7 @@
 {
      "projects": [
           {
-               "name": "K8s2Conjur Automation Project 2025",
+               "name": "K8s2Conjur Automation Project 2025 - imported",
                "description": "Created by Tudor Urdes",
                "local_path": "_18__scan_k8_secrets_1048294829_pm",
                "scm_type": "git",
@@ -32,14 +32,14 @@
                          "name": "Conjur Demo",
                          "type": "organization"
                     },
-                    "name": "K8s2Conjur Automation Project 2025",
+                    "name": "K8s2Conjur Automation Project 2025 - imported",
                     "type": "project"
                }
           }
      ],
      "job_templates": [
           {
-               "name": "K8s2Conjur Automation Project Scan Template 2025",
+               "name": "K8s2Conjur Automation Project Scan Template 2025 - imported",
                "description": "Created by Tudor Urdes",
                "job_type": "run",
                "playbook": "K8s2Conjur.yaml",
@@ -93,7 +93,7 @@
                          "name": "Conjur Demo",
                          "type": "organization"
                     },
-                    "name": "K8s2Conjur Automation Project 2025",
+                    "name": "K8s2Conjur Automation Project 2025 - imported",
                     "type": "project"
                },
                "related": {
@@ -177,7 +177,7 @@
                          "name": "Conjur Demo",
                          "type": "organization"
                     },
-                    "name": "K8s2Conjur Automation Project Scan Template 2025",
+                    "name": "K8s2Conjur Automation Project Scan Template 2025 - imported",
                     "type": "job_template"
                }
           }
