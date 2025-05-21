@@ -12,6 +12,35 @@ K8s2Conjur performs the following steps
 - ✅ Create and bound RBAC resources (Role & RoleBinding) that give the Secrets Provider the ability to read and update Kubernetes secrets in the application
 - ✅ Ensures the workload fetches secrets securely at runtime — no hardcoded values or manual steps
 
+
+## 🖼️ Project Overview & Architecture
+<details> 
+  <summary><><><>Click to expand<><><></summary>
+
+---
+## Features: Before and After using the automation
+### Manual steps
+<img src="docs/images/manual.png" alt="Project Logo Placeholder" width="625"/>
+<img src="docs/images/before-after.png" alt="Project Logo Placeholder" width="625"/>
+
+## Steps & Simplified Architecture 
+
+<img src="docs/images/steps.png" alt="Project Logo Placeholder" width="850"/>
+<img src="docs/images/steps-a.png" alt="Project Logo Placeholder" width="850"/>
+
+## 🖼️ Project Overview
+
+![Project Logo Placeholder](images/logo-placeholder.png)
+
+![Architecture Diagram Placeholder](images/architecture-placeholder.png)
+
+![Onboarding Flow Placeholder](images/onboarding-steps-placeholder.png)
+
+![Integration Result Screenshot](images/integration-placeholder.png)
+---
+
+</details>
+
 ## Prequisites 
 <details> 
   <summary><><><>Click to expand<><><></summary>
@@ -158,30 +187,6 @@ Once the setup above is complete, **run** the main playbook:
 From the AAP/AWX GUI -> Template
 ```
 </details>
-
----
-## Features: Before and After using the automation
-### Manual steps
-<img src="docs/images/manual.png" alt="Project Logo Placeholder" width="625"/>
-<img src="docs/images/before-after.png" alt="Project Logo Placeholder" width="625"/>
-
-## Steps & Simplified Architecture 
-
-<img src="docs/images/steps.png" alt="Project Logo Placeholder" width="850"/>
-<img src="docs/images/steps-a.png" alt="Project Logo Placeholder" width="850"/>
-
-## 🖼️ Project Overview
-
-![Project Logo Placeholder](images/logo-placeholder.png)
-
-![Architecture Diagram Placeholder](images/architecture-placeholder.png)
-
-![Onboarding Flow Placeholder](images/onboarding-steps-placeholder.png)
-
-![Integration Result Screenshot](images/integration-placeholder.png)
-
----
-
 
 
 📘 Documentation
