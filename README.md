@@ -49,7 +49,15 @@ K8s2Conjur performs the following steps
 ## Prerequisites
 <details> 
   <summary><><><>Click to expand<><><></summary>
-    
+
+
+### ✅ General  
+- `conjur` CLI installed  
+- `kubectl\oc' or Kubernetes-compatible API client  
+-  Conjur admin access for initial configuration.
+
+📘 See: [Conjur CLI Setup Guide]([https://docs.cyberark.com/ConjurCloud-latest/en/Content/ConjurCLI/cli-install.htm](https://docs.cyberark.com/conjur-enterprise/latest/en/content/developer/cli/cli-setup.htm?TocPath=Developer%7CConjur%20CLI%7C_____1)
+
 ### ✅ Core Components
 
 -  Access to an OpenShift or Kubernetes cluster  
@@ -62,12 +70,6 @@ K8s2Conjur performs the following steps
 **  system:service-account-issuer-discovery (ClusterRole permission) **
 
 ### 🧰 Machine Requirements (AAP EE or Execution Node)
-
-- `conjur` CLI installed  
-- `kubectl\oc' or Kubernetes-compatible API client  
--  Conjur admin access for initial configuration.  
-
-📘 See: [Conjur CLI Setup Guide]([https://docs.cyberark.com/ConjurCloud-latest/en/Content/ConjurCLI/cli-install.htm](https://docs.cyberark.com/conjur-enterprise/latest/en/content/developer/cli/cli-setup.htm?TocPath=Developer%7CConjur%20CLI%7C_____1)
 
 - ✅ Ansible Automation Platform (AAP) or AWX operational
 - ✅ CyberArk Conjur Enterprise with:
@@ -117,10 +119,12 @@ collections:
 or manually:
 
 ```bash
+
 ansible-galaxy collection install kubernetes.core
+
 ```
 
-🔑 Retrieve OpenShift API URL & Token
+🔑 Example of retrieving OpenShift API URL & Token
 Login to the OpenShift Web Console
 
 Click your user menu → Copy Login Command
