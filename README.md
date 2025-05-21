@@ -16,11 +16,15 @@ K8s2Conjur performs the following steps
 - 🔁 Delivers secrets securely both at startup and at runtime via JWT-based authentication using the CyberArk Secrets Provider, which runs continuously alongside 
   the application (side-car container). No hardcoded credentials, no manual secret management required.
 
-📘 Documentation
+📘 Official Documentation
   [What is CyberArk Conjur Enterprise?](https://docs.cyberark.com/conjur-enterprise/latest/en/content/enterprise/enterprise_vs_opensource.htm?tocpath=Get%20started%7C_____3)  
+  
   [OpenShift/Kubernetes Integration](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s_lp.htm?tocpath=Integrations%7COpenShift%252FKubernetes%7C_____0) 
+  
   [JWT Authentication](https://docs.cyberark.com/conjur-enterprise/latest/en/content/operations/services/cjr-authn-jwt-lp.htm?tocpath=Integrations%7CJWT%20Authentication%7C_____0)
+  
   [JWT-based Kubernetes authentication](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s-jwt-authn.htm)
+  
   [SecretsProvider and other methods to securely fetch secrets in K8s Set up workloads (JWT-based authentication)](https://docs.cyberark.com/conjur-enterprise/latest/en/content/integrations/k8s-ocp/k8s-jwt-set-up-apps.htm?tocpath=Integrations%7COpenShift%252FKubernetes%7CApp%20owner%253A%20Set%20up%20workloads%20in%20Kubernetes%7CSet%20up%20workloads%20(JWT-based%20authn)%7C_____0)
   
 ## 🖼️ Project Overview & Architecture
