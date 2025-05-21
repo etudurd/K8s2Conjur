@@ -1,0 +1,155 @@
+{
+    "projects": [
+        {
+            "name": "K8s2Conjur Automation Project 2025 - imported (cleaned)",
+            "description": "Created by Tudor Urdes",
+            "local_path": "_18__scan_k8_secrets_1048294829_pm",
+            "scm_type": "git",
+            "scm_url": "https://github.com/etudurd/K8s2Conjur",
+            "scm_branch": "",
+            "scm_refspec": "",
+            "scm_clean": false,
+            "scm_track_submodules": false,
+            "scm_delete_on_update": false,
+            "credential": null,
+            "timeout": 0,
+            "scm_update_on_launch": false,
+            "scm_update_cache_timeout": 0,
+            "allow_override": false,
+            "default_environment": null,
+            "signature_validation_credential": null,
+            "organization": {
+                "name": "Default",
+                "type": "organization"
+            },
+            "related": {
+                "notification_templates_started": [],
+                "notification_templates_success": [],
+                "notification_templates_error": []
+            }
+        }
+    ],
+    "job_templates": [
+        {
+            "name": "K8s2Conjur Automation Project Scan Template 2025 - imported (cleaned)",
+            "description": "Created by Tudor Urdes",
+            "job_type": "run",
+            "playbook": "K8s2Conjur.yaml",
+            "scm_branch": "",
+            "forks": 0,
+            "limit": "",
+            "verbosity": 0,
+            "extra_vars": "---",
+            "job_tags": "",
+            "force_handlers": false,
+            "skip_tags": "",
+            "start_at_task": "",
+            "timeout": 0,
+            "use_fact_cache": false,
+            "execution_environment": null,
+            "host_config_key": "",
+            "ask_scm_branch_on_launch": false,
+            "ask_diff_mode_on_launch": false,
+            "ask_variables_on_launch": false,
+            "ask_limit_on_launch": false,
+            "ask_tags_on_launch": false,
+            "ask_skip_tags_on_launch": false,
+            "ask_job_type_on_launch": false,
+            "ask_verbosity_on_launch": false,
+            "ask_inventory_on_launch": true,
+            "ask_credential_on_launch": true,
+            "ask_execution_environment_on_launch": true,
+            "ask_labels_on_launch": false,
+            "ask_forks_on_launch": false,
+            "ask_job_slice_count_on_launch": false,
+            "ask_timeout_on_launch": false,
+            "ask_instance_groups_on_launch": false,
+            "survey_enabled": true,
+            "become_enabled": false,
+            "diff_mode": false,
+            "allow_simultaneous": false,
+            "job_slice_count": 1,
+            "webhook_service": "",
+            "webhook_credential": null,
+            "prevent_instance_group_fallback": false,
+            "inventory": {
+                "organization": {
+                    "name": "Default",
+                    "type": "organization"
+                },
+                "name": "Demo Inventory",
+                "type": "inventory"
+            },
+            "project": {
+                "organization": {
+                    "name": "Default",
+                    "type": "organization"
+                },
+                "name": "K8s2Conjur Automation Project 2025 - imported (cleaned)",
+                "type": "project"
+            },
+            "related": {
+                "labels": [],
+                "credentials": [],
+                "schedules": [],
+                "notification_templates_started": [],
+                "notification_templates_success": [],
+                "notification_templates_error": [],
+                "survey_spec": {
+                    "name": "",
+                    "spec": [
+                        {
+                            "max": 1024,
+                            "min": 0,
+                            "type": "text",
+                            "choices": "",
+                            "default": "",
+                            "required": true,
+                            "variable": "service_account",
+                            "new_question": false,
+                            "question_name": "\ud83d\udd04 Provide the name of the Service Account used by the application to be onboarded",
+                            "question_description": "(This is required for assigning JWT permissions to your app)"
+                        },
+                        {
+                            "max": 1024,
+                            "min": 0,
+                            "type": "text",
+                            "choices": "",
+                            "default": "",
+                            "required": true,
+                            "variable": "k8s_namespace",
+                            "new_question": false,
+                            "question_name": "\ud83d\udce6 Enter the namespace where the Kubernetes deployment is running",
+                            "question_description": "(Used to locate the deployment and secrets)"
+                        },
+                        {
+                            "max": 1024,
+                            "min": 0,
+                            "type": "text",
+                            "choices": "",
+                            "default": "",
+                            "required": true,
+                            "variable": "deployment_name",
+                            "new_question": false,
+                            "question_name": " \ud83d\ude80 Specify the name of the Kubernetes Deployment to be scanned",
+                            "question_description": "(Used to extract mounted secrets and environment references)"
+                        },
+                        {
+                            "max": 1024,
+                            "min": 0,
+                            "type": "text",
+                            "choices": "",
+                            "default": "",
+                            "required": true,
+                            "variable": "authenticator_id",
+                            "new_question": false,
+                            "question_name": "\ud83d\udd10 Enter the name of the Conjur JWT Authenticator that will validate the workload",
+                            "question_description": "(e.g., authn-jwt/dev-cluster-automation)"
+                        }
+                    ],
+                    "description": ""
+                }
+            }
+        }
+    ]
+}
