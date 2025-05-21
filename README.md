@@ -12,6 +12,106 @@ K8s2Conjur performs the following steps
 - ✅ Create and bound RBAC resources (Role & RoleBinding) that give the Secrets Provider the ability to read and update Kubernetes secrets in the application
 - ✅ Ensures the workload fetches secrets securely at runtime — no hardcoded values or manual steps
 
+## Prequisites 
+<details> 
+  <summary><><><>Click to expand<><><></summary>
+    
+## ✅ Core Components
+
+-  Access to an OpenShift or Kubernetes cluster  
+  - The automation assumes permissions to create:  
+    - Deployments  
+    - ServiceAccounts  
+    - RoleBindings  
+    - Secrets
+-	The K8s/OC user if he doesn’t have cluster role permissions (super-user) he needs at least to have the following role added:
+**  system:service-account-issuer-discovery (ClusterRole permission) **
+
+## 🧰 Machine Requirements (AAP EE or Execution Node)
+
+- `conjur` CLI installed  
+- `kubectl\oc' or Kubernetes-compatible API client  
+-  Conjur admin access for initial configuration.  
+
+📘 See: [Conjur CLI Setup Guide]([https://docs.cyberark.com/ConjurCloud-latest/en/Content/ConjurCLI/cli-install.htm](https://docs.cyberark.com/conjur-enterprise/latest/en/content/developer/cli/cli-setup.htm?TocPath=Developer%7CConjur%20CLI%7C_____1)
+
+- ✅ Ansible Automation Platform (AAP) or AWX operational
+- ✅ CyberArk Conjur Enterprise with:
+  - ✅ **JWT Authenticator enabled and configured** (📌 **one-time setup** per cluster — see [docs/jwt-authenticator.md](docs/jwt-authenticator.md))
+  - ✅ A **dedicated non-admin Conjur identity** for the automation (`ansible-automation-user`)
+  - ✅ Secrets such as tokens, URLs, and credentials stored as Conjur variables
+
+---
+
+## 🔐 Security Best Practices
+
+- Use a **dedicated Conjur Host identity** for automation access  
+- Store sensitive values securely in Conjur:
+  - OpenShift/Kubernetes Bearer token
+  - API Server endpoint
+  - Conjur identity API key
+- ✅ Sync those values into AAP using the **official Conjur-AAP integration**
+- 📌 The JWT authenticator setup is a required **manual first step per cluster**, and **Step 2** (identity & token injection) is designed as a security layer to **reduce the attack surface** while leveraging secure token fetching
+
+---
+
+---
+
+## 🌐 Network Requirements
+
+| Component                  | Needs Access To | Port | Purpose                                 |
+|---------------------------|-----------------|------|-----------------------------------------|
+| AAP                       | Conjur          | 443  | Secrets injection, policy operations    |
+| AAP                       | OpenShift API   | 443  | Deployment control via API              |
+| OpenShift/K8s             | Conjur          | 443  | Secrets Provider JWT-based authentication |
+
+✅ Ensure **DNS resolution** works for both the OpenShift API and Conjur endpoints **from both AAP and OpenShift**.
+
+---
+
+---
+
+## 📦 Required Ansible Collection
+
+Install the `kubernetes.core` collection either via:
+
+`requirements.yml`:
+```yaml
+collections:
+  - name: kubernetes.core
+
+or manually:
+
+```bash
+ansible-galaxy collection install kubernetes.core
+```
+
+🔑 Retrieve OpenShift API URL & Token
+Login to the OpenShift Web Console
+
+Click your user menu → Copy Login Command
+
+Extract:
+
+--token=... → Bearer token
+
+--server=https://... → API URL
+
+Identify your target namespace/project
+
+🔄 Optional: Automate Token Handling
+You can automate login or rotate tokens using:
+
+ServiceAccount tokens with projected audiences
+
+oc login automation
+
+Web console script extraction
+
+But for most use cases, manual copy-paste of the token is sufficient for the first setup.
+
+</details>
+
 ## TL;DR —  Deployment of `K8s2Conjur` Automation
 <details>
   <summary><><><>Click to expand<><><></summary>
@@ -82,111 +182,6 @@ From the AAP/AWX GUI -> Template
 ---
 
 
-## ✅ Core Components
-
-- ✅ Access to an OpenShift or Kubernetes cluster  
-  - The automation assumes permissions to create:  
-    - Deployments  
-    - ServiceAccounts  
-    - RoleBindings  
-    - Secrets
-
-- ✅ Ansible Automation Platform (AAP) or AWX operational
-
-- ✅ CyberArk Conjur Enterprise with:
-  - ✅ **JWT Authenticator enabled and configured** (📌 **one-time setup** per cluster — see [docs/jwt-authenticator.md](docs/jwt-authenticator.md))
-  - ✅ A **dedicated non-admin Conjur identity** for the automation (`ansible-automation-user`)
-  - ✅ Secrets such as tokens, URLs, and credentials stored as Conjur variables
-
----
-
-## 🔐 Security Best Practices
-
-- Use a **dedicated Conjur Host identity** for automation access  
-- Store sensitive values securely in Conjur:
-  - OpenShift/Kubernetes Bearer token
-  - API Server endpoint
-  - Conjur identity API key
-- ✅ Sync those values into AAP using the **official Conjur-AAP integration**
-- 📌 The JWT authenticator setup is a required **manual first step per cluster**, and **Step 2** (identity & token injection) is designed as a security layer to **reduce the attack surface** while leveraging secure token fetching
-
----
-
-## 🧰 Machine Requirements (AAP EE or Execution Node)
-
-- `conjur` CLI installed  
-- `kubectl` or Kubernetes-compatible API client  
-- Conjur credentials with the `conjur-policy-loader` role  
-
-📘 See: [Conjur CLI Setup Guide](https://docs.cyberark.com/ConjurCloud-latest/en/Content/ConjurCLI/cli-install.htm)
-
----
-
-## 🌐 Network Requirements
-
-| Component                  | Needs Access To | Port | Purpose                                 |
-|---------------------------|-----------------|------|-----------------------------------------|
-| AAP                       | Conjur          | 443  | Secrets injection, policy operations    |
-| AAP                       | OpenShift API   | 443  | Deployment control via API              |
-| OpenShift/K8s             | Conjur          | 443  | Secrets Provider JWT-based authentication |
-
-✅ Ensure **DNS resolution** works for both the OpenShift API and Conjur endpoints **from both AAP and OpenShift**.
-
----
-
-## 🏗️ Optional: In-Cluster Execution Environment
-
-Use Ansible Execution Environments **inside OpenShift** if:
-- You want to run automation from within the cluster  
-- You want to avoid exposing the OpenShift API externally  
-- AAP is deployed as a workload in OpenShift  
-
----
-
-## 📦 Required Ansible Collection
-
-Install the `kubernetes.core` collection either via:
-
-`requirements.yml`:
-```yaml
-collections:
-  - name: kubernetes.core
-or manually:
-
-bash
-Copy
-Edit
-ansible-galaxy collection install kubernetes.core
-Then in your playbook:
-
-yaml
-Copy
-Edit
-collections:
-  - kubernetes.core
-🔑 Retrieve OpenShift API URL & Token
-Login to the OpenShift Web Console
-
-Click your user menu → Copy Login Command
-
-Extract:
-
---token=... → Bearer token
-
---server=https://... → API URL
-
-Identify your target namespace/project
-
-🔄 Optional: Automate Token Handling
-You can automate login or rotate tokens using:
-
-ServiceAccount tokens with projected audiences
-
-oc login automation
-
-Web console script extraction
-
-But for most use cases, manual copy-paste of the token is sufficient and secure.
 
 📘 Documentation
 📄 Additional guides and walkthroughs:
