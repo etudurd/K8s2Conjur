@@ -20,6 +20,9 @@ oc delete serviceaccount 2025postgres-sa -n "$NAMESPACE" --ignore-not-found
 echo "[INFO] Deleting config map..."
 oc delete configmap db-checker-code -n "$NAMESPACE" --ignore-not-found
 
+echo "[INFO] Deleting Automation config map..."
+oc delete configmap follower-cm -n "$NAMESPACE" --ignore-not-found
+
 echo "[INFO] Deleting roles and role bindings (if any)..."
 oc delete role db-checker-role -n "$NAMESPACE" --ignore-not-found || true
 oc delete rolebinding db-checker-binding -n "$NAMESPACE" --ignore-not-found || true
