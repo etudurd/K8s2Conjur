@@ -355,7 +355,6 @@
       args:
         executable: /bin/bash
 
-        
     - name: Detect if running on OpenShift using Kubernetes API
       kubernetes.core.k8s_info:
         kind: ClusterVersion
@@ -372,7 +371,7 @@
       set_fact:
         is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
 
-    - name: Get SCC UID range for the target namespace (OpenShift only)
+    - name: Get namespace metadata (OpenShift only)
       when: is_openshift
       kubernetes.core.k8s_info:
         kind: Namespace
@@ -382,12 +381,17 @@
         verify_ssl: false
       register: namespace_info
 
-    - name: Set UID facts from SCC annotation if present
-      when: is_openshift
+    - name: Extract UID range from annotations (OpenShift only)
+      when: is_openshift and ('openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations)
       set_fact:
-        uid_range: "{{ (namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] | default('1001100000/10000')) }}"
+        uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
         uid_start: "{{ uid_range.split('/')[0] | int }}"
         run_as_uid: "{{ uid_start + 1 }}"
+
+    - name: Fallback to default UID range if SCC not found (OpenShift only)
+      when: is_openshift and ('openshift.io/sa.scc.uid-range' not in namespace_info.resources[0].metadata.annotations)
+      set_fact:
+        run_as_uid: 1001100001
 
     - name: Set Helm flags for Reloader based on cluster type
       set_fact:
@@ -402,7 +406,6 @@
           --set reloader.deployment.securityContext.runAsNonRoot=true \
           --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
           {% endif %}
-
 
     - name: Install Reloader via Helm (dynamic cluster logic)
       shell: |
