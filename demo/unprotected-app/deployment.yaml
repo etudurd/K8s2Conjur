@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: 2025postgres-sa
+  namespace: tudor-automation-ns
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: tudor-automation-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      serviceAccountName: 2025postgres-sa  # Link to custom SA
+      containers:
+        - name: postgres
+          image: registry.redhat.io/rhel8/postgresql-15
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: DB_USERNAME
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: DB_PASSWORD
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: DB_NAME
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/pgsql/data
+      volumes:
+        - name: postgres-storage
+          emptyDir: {}
