@@ -392,25 +392,69 @@
      # debug:
       #  msg: "📛 Using UID {{ run_as_uid }} for reloader (allowed SCC range starts at {{ uid_start }})"
     
-    - name: Set run_as_uid to null (for OpenShift SCC injection)
+    #- name: Set run_as_uid to null (for OpenShift SCC injection)
+      #set_fact:
+        #run_as_uid: null
+
+    - name: Detect if running on OpenShift using Kubernetes API
+      kubernetes.core.k8s_info:
+        kind: ClusterVersion
+        api_version: config.openshift.io/v1
+        name: version
+        host: "https://{{ ocp_api_host }}"
+        api_key: "{{ ocp_token }}"
+        verify_ssl: false
+      register: cluster_version_result
+      failed_when: false
+      changed_when: false
+
+    - name: Set cluster type fact
       set_fact:
-        run_as_uid: null
-        
-    - name: Install Reloader via Helm with SCC-compliant UID
+        is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
+
+    - name: Set Helm flags for Reloader based on cluster type
+      set_fact:
+        helm_flags: >-
+          {% if is_openshift %}
+          --set reloader.isOpenshift=true
+          --set reloader.deployment.securityContext.enabled=false
+          {% else %}
+          --set reloader.deployment.securityContext.runAsUser=1000
+          --set reloader.deployment.securityContext.runAsNonRoot=true
+          --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
+          {% endif %}
+
+    - name: Install Reloader via Helm (dynamic cluster logic)
       shell: |
         helm upgrade --install reloader stakater/reloader \
-          --kube-insecure-skip-tls-verify \
           --namespace reloader \
           --create-namespace \
+          --kube-insecure-skip-tls-verify \
           --set reloader.watchGlobally=false \
           --set reloader.namespaces={{ k8s_namespace }} \
-          --set securityContext.runAsUser={{ run_as_uid }} \
-          --set securityContext.runAsNonRoot=true \
-          --set securityContext.seccompProfile.type="RuntimeDefault" \
+          {{ helm_flags }} \
           --kube-token="{{ ocp_token }}" \
           --kube-apiserver="https://{{ ocp_api_host }}"
       args:
         executable: /bin/bash
+
+
+ 
+    #- name: Install Reloader via Helm with SCC-compliant UID
+      #shell: |
+        #helm upgrade --install reloader stakater/reloader \
+          #--kube-insecure-skip-tls-verify \
+          #--namespace reloader \
+          #--create-namespace \
+          #--set reloader.watchGlobally=false \
+          #--set reloader.namespaces={{ k8s_namespace }} \
+          #--set securityContext.runAsUser={{ run_as_uid }} \
+          #--set securityContext.runAsNonRoot=true \
+          #--set securityContext.seccompProfile.type="RuntimeDefault" \
+          #--kube-token="{{ ocp_token }}" \
+          #--kube-apiserver="https://{{ ocp_api_host }}"
+      #args:
+        #executable: /bin/bash
 
 
     # Step 10.4: Patch deployment with Reloader annotations
