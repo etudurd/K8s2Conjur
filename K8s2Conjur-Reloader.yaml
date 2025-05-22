@@ -355,8 +355,15 @@
     #        watchGlobally: false
     #        namespaces:
     #          - "{{ k8s_namespace }}"
+
     
     # Step 10.3: Deploy Reloader using Helm CLI (shell fallback)
+
+    - name: Install Helm CLI temporarily inside EE (if not present)
+      shell: |
+        curl -sSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      args:
+        executable: /bin/bash
 
     - name: Add Stakater Helm repo and update
       shell: |
