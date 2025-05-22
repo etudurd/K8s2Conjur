@@ -16,6 +16,9 @@ K8s2Conjur performs the following steps
 - 🔁 Delivers secrets securely both at startup and at runtime via JWT-based authentication using the CyberArk Secrets Provider, which runs continuously alongside 
   the application (side-car container). No hardcoded credentials, no manual secret management required.
 
+<img src="docs/images/uc7.png" alt="Project Logo Placeholder" width="625"/>
+
+
 📘 Official Documentation
 
   [What is CyberArk Conjur Enterprise?](https://docs.cyberark.com/conjur-enterprise/latest/en/content/enterprise/enterprise_vs_opensource.htm?tocpath=Get%20started%7C_____3)  
