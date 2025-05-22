@@ -372,7 +372,22 @@
       args:
         executable: /bin/bash
 
-    - name: Install Reloader via Helm CLI scoped to app namespace
+    - name: Get SCC UID range for the target namespace
+      shell: >
+        oc get project {{ k8s_namespace }} -o jsonpath='{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}'
+      register: scc_uid_range
+      changed_when: false
+
+    - name: Parse SCC UID range and compute safe runAsUser
+      set_fact:
+        uid_start: "{{ scc_uid_range.stdout.split('/')[0]|int }}"
+        run_as_uid: "{{ uid_start + 1 }}"   # Use the 2nd UID in the range
+
+    - name: Debug selected UID (optional)
+      debug:
+        msg: "📛 Using UID {{ run_as_uid }} for reloader (allowed SCC range starts at {{ uid_start }})"
+
+    - name: Install Reloader via Helm with SCC-compliant UID
       shell: |
         helm upgrade --install reloader stakater/reloader \
           --kube-insecure-skip-tls-verify \
@@ -380,11 +395,11 @@
           --create-namespace \
           --set reloader.watchGlobally=false \
           --set reloader.namespaces={{ k8s_namespace }} \
-          --set securityContext.runAsUser=1001100001 \
+          --set securityContext.runAsUser={{ run_as_uid }} \
           --set securityContext.runAsNonRoot=true \
           --set securityContext.seccompProfile.type="RuntimeDefault" \
           --kube-token="{{ ocp_token }}" \
-          --kube-apiserver="https://{{ ocp_api_host }}" 
+          --kube-apiserver="https://{{ ocp_api_host }}"
       args:
         executable: /bin/bash
 
