@@ -62,8 +62,9 @@ This setup reflects a common real-world misconfiguration, making it ideal for de
 ```bash
 oc get pods -n tudor-automation-ns
 ```
+ ![AAP-integration](/docs/images/uc2.png)
 
-![Pods Running](files/uc3.png)
+![AAP-integration](/docs/images/uc3.png)
 
 ### 3. View client logs:
 
@@ -71,12 +72,12 @@ oc get pods -n tudor-automation-ns
 oc logs pod/db-checker-XXXXXX -n tudor-automation-ns
 ```
 
-![Logs Output](files/uc4.png)
+![AAP-integration](/docs/images/uc4.png)
 
 You will see the client successfully connecting to the DB using static Kubernetes Secrets.
 
-![Secrets in Use](files/uc5.png)
-![DB Deployment](files/uc6.png)
+![AAP-integration](/docs/images/uc5.png)
+![AAP-integration](/docs/images/uc6.png)
 
 ---
 
@@ -91,7 +92,7 @@ Fill in the following fields:
 - **Namespace**: e.g. `tudor-automation-ns`
 - **Authenticator ID**: as configured in your Conjur setup
 
-![AWX Launch](files/uc7.png)
+![AAP-integration](/docs/images/uc7.png)
 
 This automation will:
 - Scan the workload and extract referenced secrets
@@ -100,9 +101,9 @@ This automation will:
 - Patch the deployment with a **Secrets Provider** sidecar
 - Replace Kubernetes Secrets with dynamic Conjur references
 
-![Sidecar Visible](files/uc8.png)
-![AWX Output 1](files/uc9.png)
-![AWX Output 2](files/uc10.png)
+![AAP-integration](/docs/images/uc8.png)
+![AAP-integration](/docs/images/uc9.png)
+![AAP-integration](/docs/images/uc10.png)
 
 ---
 
@@ -121,8 +122,8 @@ Once the Ansible job runs:
 
 Update the values of your secrets in Conjur, and observe the application update **in real-time** without restarts.
 
-![Updated Secrets](files/uc11.png)
-![Conjur Mapping](files/uc12.png)
+![AAP-integration](/docs/images/uc11.png)
+![AAP-integration](/docs/images/uc12.png)
 
 ---
 
@@ -164,15 +165,5 @@ conjur policy update -f delete.yaml -b root
 Check out the [docs/automation-flow.md](../docs/automation-flow.md) to understand the complete onboarding logic, flow, and security model.
 
 ---
-
-## 🎉 Summary
-
-| Component                | Secured by Conjur? |
-|-------------------------|--------------------|
-| PostgreSQL Credentials  | ✅                 |
-| Client Authentication   | ✅                 |
-| Secrets Provider Sidecar| ✅                 |
-| JWT Authenticator       | ✅                 |
-| Namespace RBAC          | ✅                 |
 
 **From hardcoded secrets ➜ to dynamic secret delivery — in one click. 🔐🚀**
