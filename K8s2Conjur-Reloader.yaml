@@ -367,9 +367,9 @@
       failed_when: false
       changed_when: false
 
-    #- name: Set cluster type fact
-      #set_fact:
-        #is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
+    - name: Set cluster type fact
+      set_fact:
+        is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
 
     - name: Get namespace metadata (OpenShift only)
       when: is_openshift
