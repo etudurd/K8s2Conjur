@@ -210,7 +210,7 @@ From the AAP/AWX GUI -> Template
   <summary><><><>Click to expand<><><></summary>
 
 
-> 📘 **Full use-case + scripts:** [`1-jwt-authenticator.md`](./1-jwt-authenticator.md)
+> 📘 **Full use-case + scripts:** [`4-use-case-scenario.md`](./demo/unprotected-app/4-use-case-scenario.md)
 
 We can demo the solution by deploying an "unprotected" application that includes:
 - A **PostgreSQL database container** with three environment variables that should be treated as secrets:
@@ -254,7 +254,8 @@ You can confirm that everything worked as expected by:
 
 ### For More Information
 
-To dive deeper into the process, review the this part: [docs/automation-flow.md](docs/automation-flow.md).
+To dive deeper into the process, review the this part: [`4-use-case-scenario.md`](./demo/unprotected-app/4-use-case-scenario.md)
+
 
 </details>
 
