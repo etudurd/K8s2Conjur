@@ -367,9 +367,9 @@
       failed_when: false
       changed_when: false
 
-    - name: Set cluster type fact
-      set_fact:
-        is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
+    #- name: Set cluster type fact
+      #set_fact:
+        #is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
 
     - name: Get namespace metadata (OpenShift only)
       when: is_openshift
@@ -381,26 +381,13 @@
         verify_ssl: false
       register: namespace_info
 
-    #- name: Extract UID range and compute UID (OpenShift only)
-      #when: is_openshift
-      #set_fact:
-        #uid_range: >-
-          #{{ (namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] 
-          #if 'openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations else '1001100000/10000') }}
-        #uid_start: "{{ uid_range.split('/')[0] | int }}"
-        #run_as_uid: "{{ uid_range.split('/')[0] | int + 1 }}"
 
         
-    #- name: Fallback to default UID range if SCC not found (OpenShift only)
-      #when: is_openshift and ('openshift.io/sa.scc.uid-range' not in namespace_info.resources[0].metadata.annotations)
-      #set_fact:
-        #run_as_uid: 1001100001
-        
     # Before Helm flags are set
-    - name: Ensure run_as_uid is defined (default fallback)
-      set_fact:
-        run_as_uid: 1001160001
-      when: run_as_uid is not defined
+    #- name: Ensure run_as_uid is defined (default fallback)
+      #set_fact:
+        #run_as_uid: 1001160001
+      #when: run_as_uid is not defined
 
 
     - name: Set Helm flags for Reloader (skip runAsUser for OpenShift)
@@ -430,36 +417,36 @@
           #{% endif %}
 
 
-    - name: Install Reloader via Helm (dynamic cluster logic)
-      shell: |
-        helm upgrade --install reloader stakater/reloader \
-          --namespace reloader \
-          --create-namespace \
-          --kube-insecure-skip-tls-verify \
-          --set reloader.watchGlobally=false \
-          --set reloader.namespaces={{ k8s_namespace }} \
-          {{ helm_flags }} \
-          --kube-token="{{ ocp_token }}" \
-          --kube-apiserver="https://{{ ocp_api_host }}"
-      args:
-        executable: /bin/bash
-
- 
-    #- name: Install Reloader via Helm with SCC-compliant UID
+    #- name: Install Reloader via Helm (dynamic cluster logic)
       #shell: |
         #helm upgrade --install reloader stakater/reloader \
-          #--kube-insecure-skip-tls-verify \
           #--namespace reloader \
           #--create-namespace \
+          #--kube-insecure-skip-tls-verify \
           #--set reloader.watchGlobally=false \
           #--set reloader.namespaces={{ k8s_namespace }} \
-          #--set securityContext.runAsUser={{ run_as_uid }} \
-          #--set securityContext.runAsNonRoot=true \
-          #--set securityContext.seccompProfile.type="RuntimeDefault" \
+          #{{ helm_flags }} \
           #--kube-token="{{ ocp_token }}" \
           #--kube-apiserver="https://{{ ocp_api_host }}"
       #args:
         #executable: /bin/bash
+
+ 
+    - name: Install Reloader via Helm with SCC-compliant UID
+      shell: |
+        helm upgrade --install reloader stakater/reloader \
+          --kube-insecure-skip-tls-verify \
+          --namespace reloader \
+          --create-namespace \
+          --set reloader.watchGlobally=false \
+          --set reloader.namespaces={{ k8s_namespace }} \
+          --set securityContext.runAsUser={{ run_as_uid }} \
+          --set securityContext.runAsNonRoot=true \
+          --set securityContext.seccompProfile.type="RuntimeDefault" \
+          --kube-token="{{ ocp_token }}" \
+          --kube-apiserver="https://{{ ocp_api_host }}"
+      args:
+        executable: /bin/bash
 
 
     # Step 10.4: Patch deployment with Reloader annotations
