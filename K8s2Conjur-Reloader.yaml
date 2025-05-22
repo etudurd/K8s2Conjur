@@ -381,72 +381,54 @@
         verify_ssl: false
       register: namespace_info
 
+    - name: Extract UID range and compute runAsUser
+      set_fact:
+        uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
+        run_as_uid: "{{ (uid_range.split('/')[0] | int) + 1 }}"
+      when: "'openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations"
 
-        
-    # Before Helm flags are set
-    #- name: Ensure run_as_uid is defined (default fallback)
-      #set_fact:
-        #run_as_uid: 1001160001
-      #when: run_as_uid is not defined
+    - name: Set default runAsUser if UID range not found
+      set_fact:
+        run_as_uid: 1000
+      when: run_as_uid is not defined
 
-
-    - name: Set Helm flags for Reloader (skip runAsUser for OpenShift)
+    - name: Set Helm flags for Reloader
       set_fact:
         helm_flags: >-
-          {% if is_openshift %}
           --set reloader.isOpenshift=true \
-          --set reloader.deployment.securityContext.enabled=false
-          {% else %}
-          --set reloader.deployment.securityContext.runAsUser=1000 \
+          --set reloader.deployment.securityContext.runAsUser={{ run_as_uid }} \
           --set reloader.deployment.securityContext.runAsNonRoot=true \
           --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
-          {% endif %}
 
-    #- name: Set Helm flags for Reloader based on cluster type
-      #set_fact:
-        #helm_flags: >-
-          #{% if is_openshift %}
-          #--set reloader.isOpenshift=true
-          #--set reloader.deployment.securityContext.runAsUser={{ run_as_uid }}
-          #--set reloader.deployment.securityContext.runAsNonRoot=true
-          #--set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
-          #{% else %}
-          #--set reloader.deployment.securityContext.runAsUser=1000
-          #--set reloader.deployment.securityContext.runAsNonRoot=true
-          #--set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
-          #{% endif %}
-
-
-    #- name: Install Reloader via Helm (dynamic cluster logic)
-      #shell: |
-        #helm upgrade --install reloader stakater/reloader \
-          #--namespace reloader \
-          #--create-namespace \
-          #--kube-insecure-skip-tls-verify \
-          #--set reloader.watchGlobally=false \
-          #--set reloader.namespaces={{ k8s_namespace }} \
-          #{{ helm_flags }} \
-          #--kube-token="{{ ocp_token }}" \
-          #--kube-apiserver="https://{{ ocp_api_host }}"
-      #args:
-        #executable: /bin/bash
-
- 
-    - name: Install Reloader via Helm with SCC-compliant UID
+    - name: Install Reloader via Helm
       shell: |
         helm upgrade --install reloader stakater/reloader \
-          --kube-insecure-skip-tls-verify \
           --namespace reloader \
           --create-namespace \
+          --kube-insecure-skip-tls-verify \
           --set reloader.watchGlobally=false \
           --set reloader.namespaces={{ k8s_namespace }} \
-          --set securityContext.runAsUser={{ run_as_uid }} \
-          --set securityContext.runAsNonRoot=true \
-          --set securityContext.seccompProfile.type="RuntimeDefault" \
+          {{ helm_flags }} \
           --kube-token="{{ ocp_token }}" \
           --kube-apiserver="https://{{ ocp_api_host }}"
       args:
         executable: /bin/bash
+
+    #- name: Install Reloader via Helm with SCC-compliant UID
+      #shell: |
+        #helm upgrade --install reloader stakater/reloader \
+          #--kube-insecure-skip-tls-verify \
+          #--namespace reloader \
+          #--create-namespace \
+          #--set reloader.watchGlobally=false \
+          #--set reloader.namespaces={{ k8s_namespace }} \
+          #--set securityContext.runAsUser={{ run_as_uid }} \
+          #--set securityContext.runAsNonRoot=true \
+          #--set securityContext.seccompProfile.type="RuntimeDefault" \
+          #--kube-token="{{ ocp_token }}" \
+          #--kube-apiserver="https://{{ ocp_api_host }}"
+      #args:
+        #executable: /bin/bash
 
 
     # Step 10.4: Patch deployment with Reloader annotations
