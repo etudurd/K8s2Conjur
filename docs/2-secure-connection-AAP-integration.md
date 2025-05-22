@@ -43,10 +43,7 @@ Login to Conjur by using the CLI
       privileges: [ read, execute ]
       resources: *variables
 
-    - !policy
-      id: secrets
-
-
+ 
     # Optional: internal group definition if you want to reuse inside this policy
     #- !group local-admins
 
