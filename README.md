@@ -178,7 +178,7 @@ You can deploy this automation in minutes:
 - **Follow step 1+2+3 - one time process**
 - (optional - UseCase demo step 4)
 - **When step 3 is finished**: **Clone this repository locally** and importing it into your AAP/AWX project, **OR**
-- Referencing the **public GitHub repository** directly as the source in your AAP project.
+- Reference the **public GitHub repository** directly as the source in your AAP project: https://github.com/etudurd/K8s2Conjur
 
 ---
 ### 🔧 Required One-Time Preparations
