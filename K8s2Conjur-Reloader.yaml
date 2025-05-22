@@ -381,13 +381,20 @@
         verify_ssl: false
       register: namespace_info
 
-    - name: Extract UID range from annotations (OpenShift only)
-      when: is_openshift and ('openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations)
-      set_fact:
-        uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
-        uid_start: "{{ uid_range.split('/')[0] | int }}"
-        run_as_uid: "{{ uid_start + 1 }}"
+    - name: Set UID facts from SCC annotation if present
+      when: is_openshift
+      block:
+        - name: Extract UID range safely
+          set_fact:
+            uid_range: >-
+              {{ (namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] 
+              if 'openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations else '1001100000/10000') }}
 
+        - name: Compute safe runAs UID from range
+          set_fact:
+            uid_start: "{{ uid_range.split('/')[0] | int }}"
+            run_as_uid: "{{ uid_start + 1 }}"
+        
     - name: Fallback to default UID range if SCC not found (OpenShift only)
       when: is_openshift and ('openshift.io/sa.scc.uid-range' not in namespace_info.resources[0].metadata.annotations)
       set_fact:
