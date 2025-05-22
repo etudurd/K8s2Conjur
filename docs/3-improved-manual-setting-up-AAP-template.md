@@ -106,9 +106,9 @@ Click **Run** on the job template and enter the requested survey values.
 > - Patch the Kubernetes deployment
 > - Enable secure JWT-based syncing of secrets into Kubernetes
 
-![AAP-integration](/docs/images/uc8.png)
-![AAP-integration](/docs/images/uc9.png)
-![AAP-integration](/docs/images/uc10.png)
+<img src="images/uc8.png" alt="Run Job Template" width="620"/>
+<img src="images/uc9.png" alt="Run Job Template" width="620"/>
+<img src="images/uc10.png" alt="Run Job Template" width="620"/>
 
 ---
 
