@@ -399,7 +399,7 @@
     # Before Helm flags are set
     - name: Ensure run_as_uid is defined (default fallback)
       set_fact:
-        run_as_uid: 1001100001
+        run_as_uid: 1001160001
       when: run_as_uid is not defined
 
 
