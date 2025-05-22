@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-checker-code
+  namespace: tudor-automation-ns
+data:
+  app.py: |
+    import os
+    import psycopg2
+    import time
+
+    def connect():
+        dbname = os.getenv("DB_NAME")
+        user = os.getenv("DB_USERNAME")
+        password = os.getenv("DB_PASSWORD")
+        host = os.getenv("DB_HOST", "postgres")
+        port = os.getenv("DB_PORT", "5432")
+
+        while True:
+            try:
+                conn = psycopg2.connect(
+                    dbname=dbname,
+                    user=user,
+                    password=password,
+                    host=host,
+                    port=port
+                )
+                print(f"[SUCCESS] Connected to DB '{dbname}' as '{user}'")
+                conn.close()
+            except Exception as e:
+                print(f"[FAILURE] Could not connect to DB: {e}")
+            time.sleep(10)
+
+    if __name__ == "__main__":
+        connect()
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-checker
+  namespace: tudor-automation-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-checker
+  template:
+    metadata:
+      labels:
+        app: db-checker
+    spec:
+      containers:
+        - name: db-checker
+          image: python:3.11
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              mkdir -p /tmp/deps && \
+              pip install --target=/tmp/deps psycopg2-binary && \
+              echo "== Starting Python app ==" && \
+              PYTHONPATH=/tmp/deps python -u /app/app.py
+          volumeMounts:
+            - name: code
+              mountPath: /app
+          envFrom:
+            - secretRef:
+                name: postgres-secrets
+          env:
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_PORT
+              value: "5432"
+      volumes:
+        - name: code
+          configMap:
+            name: db-checker-code
