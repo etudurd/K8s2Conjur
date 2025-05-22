@@ -372,26 +372,30 @@
       args:
         executable: /bin/bash
 
-    - name: Get project metadata to extract SCC UID range
-      kubernetes.core.k8s_info:
-        kind: Project
-        api_version: project.openshift.io/v1
-        name: "{{ k8s_namespace }}"
-        host: "https://{{ ocp_api_host }}"
-        api_key: "{{ ocp_token }}"
-        verify_ssl: false
-      register: project_metadata
+    #- name: Get project metadata to extract SCC UID range
+     # kubernetes.core.k8s_info:
+      #  kind: Project
+       # api_version: project.openshift.io/v1
+        #name: "{{ k8s_namespace }}"
+        #host: "https://{{ ocp_api_host }}"
+        #api_key: "{{ ocp_token }}"
+        #verify_ssl: false
+      #register: project_metadata
 
-    - name: Parse SCC UID range and compute safe runAsUser
+    #- name: Parse SCC UID range and compute safe runAsUser
+      #set_fact:
+        #uid_range: "{{ project_metadata.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
+        #uid_start: "{{ uid_range.split('/')[0]|int }}"
+        #run_as_uid: "{{ uid_start + 1 }}"
+
+    #- name: Debug selected UID (optional)
+     # debug:
+      #  msg: "📛 Using UID {{ run_as_uid }} for reloader (allowed SCC range starts at {{ uid_start }})"
+    
+    - name: Set run_as_uid to null (for OpenShift SCC injection)
       set_fact:
-        uid_range: "{{ project_metadata.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
-        uid_start: "{{ uid_range.split('/')[0]|int }}"
-        run_as_uid: "{{ uid_start + 1 }}"
-
-    - name: Debug selected UID (optional)
-      debug:
-        msg: "📛 Using UID {{ run_as_uid }} for reloader (allowed SCC range starts at {{ uid_start }})"
-
+        run_as_uid: null
+        
     - name: Install Reloader via Helm with SCC-compliant UID
       shell: |
         helm upgrade --install reloader stakater/reloader \
