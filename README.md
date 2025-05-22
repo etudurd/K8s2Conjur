@@ -210,6 +210,7 @@ From the AAP/AWX GUI -> Template
   <summary><><><>Click to expand<><><></summary>
 
 
+
 > 📘 **Full use-case + scripts:** [`4-use-case-scenario.md`](./demo/unprotected-app/4-use-case-scenario.md)
 
 We can demo the solution by deploying an "unprotected" application that includes:
