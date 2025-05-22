@@ -337,6 +337,40 @@
             kind: Role
             name: secrets-access
             apiGroup: rbac.authorization.k8s.io
+    
+    # Step 10.0: Deploy Reloader using Helm (if not already deployed)
+    - name: Ensure Helm repo for Stakater is added
+      community.kubernetes.helm_repository:
+        name: stakater
+        repo_url: https://stakater.github.io/stakater-charts
+
+    - name: Install Reloader via Helm (watch only the namespace of the app I am patching)
+      community.kubernetes.helm:
+        name: reloader
+        chart_ref: stakater/reloader
+        release_namespace: reloader
+        create_namespace: true
+        values:
+          reloader:
+            watchGlobally: false
+            namespaces:
+              - "{{ k8s_namespace }}"
+    
+    # Step 10.3: Patch deployment with Reloader annotations
+    - name: Patch deployment with Reloader annotation to auto-reload on secret change @etudurd
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: "{{ deployment_name }}"
+            namespace: "{{ k8s_namespace }}"
+            annotations:
+              reloader.stakater.com/auto: "true"
+        host: "https://{{ ocp_api_host }}"
+        api_key: "{{ ocp_token }}"
+        verify_ssl: false
 
     # Step 11: Show policy and patch results
     - name: Show policy load result (final status)
@@ -365,5 +399,7 @@
            - "E 📜 Host & variable policies created and loaded (HTTP {{ policy_load_response.status }} / {{ secret_policy_result.status }})"
            - "R 🚀 Secrets Provider sidecar injected into the Kubernetes Deployment"
            - "A 🔁 Role and RoleBinding for secret access successfully created in namespace '{{ k8s_namespace }}'"
+           - "  🌀 Reloader Controller deployed 1.1"
            - "R == JWT Authentication enabled =="
            - "K ✅ K8s2Conjur Automation Completed Successfully ✅"
+           
