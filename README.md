@@ -21,7 +21,6 @@ K8s2Conjur performs the following steps
     <td><img src="docs/images/uc2.png" alt="Unprotected" width="400"/></td>
     <td><img src="docs/images/uc6.png" alt="Unprotected" width="400"/></td>
     <td><img src="docs/images/uc7.png" alt="Unprotected" width="400"/></td>
-    <td><img src="docs/images/uc7.png" alt="Unprotected" width="400"/></td>
     <td><img src="docs/images/uc9.png" alt="Protected" width="400"/></td>
     <td><img src="docs/images/uc8.png" alt="Protected" width="400"/></td>
     <td><img src="docs/images/uc11.png" alt="Protected" width="400"/></td>
