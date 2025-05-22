@@ -199,6 +199,52 @@ From the AAP/AWX GUI -> Template
 
 </details>
 
+## Use Case Demo: Securing an Unprotected Application
+
+We can demo the solution by deploying an "unprotected" application that includes:
+- A **PostgreSQL database container** with three environment variables that should be treated as secrets:
+  - `DB_NAME`
+  - `DB_USERNAME`
+  - `DB_PASSWORD`
+- A **client container** that connects to the database using these credentials.
+
+This scenario illustrates how an initially exposed setup can be automatically secured using Conjur and the Secrets Provider (JWT).
+
+### How to Run the Demo
+
+Start the deployment by executing:
+
+```bash
+./deploy.sh
+```
+
+To clean up all resources deployed during the demo, run:
+
+```bash
+./cleanup.sh
+```
+
+You can inspect the logs of the two running containers (`postgres` and the client) to verify live communication and credential usage.
+
+### What Happens After Automation
+
+Once the Conjur automation is applied:
+- A **Secrets Provider sidecar** is automatically attached to the running PostgreSQL pod
+- The Kubernetes Secret references are updated to securely pull values from Conjur using JWT-based authentication
+- The corresponding Conjur variables (e.g., `db-name`, `username`, `password`) are created and mapped to the application's workload identity
+
+
+### How to Verify the Integration
+
+You can confirm that everything worked as expected by:
+- Checking that the sidecar container named `cyberark-secrets-provider` is present alongside the database container
+- Inspecting the updated Kubernetes Secret objects, which now include Conjur annotations or external references
+- Verifying the mappings created in Conjur under the appropriate policy path
+
+### For More Information
+
+To dive deeper into the process, review the this part: [docs/automation-flow.md](docs/automation-flow.md).
+
 
 
 #### ⚠️ Disclaimer
