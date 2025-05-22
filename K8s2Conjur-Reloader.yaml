@@ -382,10 +382,19 @@
       register: namespace_info
 
     - name: Extract UID range and compute runAsUser
-      set_fact:
-        uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
-        run_as_uid: "{{ (uid_range.split('/')[0] | int) + 1 }}"
-      when: "'openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations"
+      when: >
+        is_openshift and
+        (namespace_info.resources[0].metadata.annotations is defined and
+         'openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations)
+      block:
+        - name: Extract UID range safely
+          set_fact:
+            uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
+
+        - name: Compute runAsUser from UID range
+          set_fact:
+            run_as_uid: "{{ (uid_range.split('/')[0] | int) + 1 }}"
+
 
     - name: Set default runAsUser if UID range not found
       set_fact:
