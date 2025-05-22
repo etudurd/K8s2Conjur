@@ -375,13 +375,13 @@
     - name: Install Reloader via Helm CLI scoped to app namespace
       shell: |
         helm upgrade --install reloader stakater/reloader \
+          --insecure-skip-tls-verify \
           --namespace reloader \
           --create-namespace \
           --set reloader.watchGlobally=false \
           --set reloader.namespaces={{ k8s_namespace }} \
           --kube-token="{{ ocp_token }}" \
-          --kube-apiserver="https://{{ ocp_api_host }}" \ 
-          --insecure-skip-tls-verify
+          --kube-apiserver="https://{{ ocp_api_host }}" 
       args:
         executable: /bin/bash
 
