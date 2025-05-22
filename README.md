@@ -209,6 +209,9 @@ From the AAP/AWX GUI -> Template
 <details>
   <summary><><><>Click to expand<><><></summary>
 
+
+> 📘 **Full use-case + scripts:** [`1-jwt-authenticator.md`](./1-jwt-authenticator.md)
+
 We can demo the solution by deploying an "unprotected" application that includes:
 - A **PostgreSQL database container** with three environment variables that should be treated as secrets:
   - `DB_NAME`
