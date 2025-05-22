@@ -201,6 +201,9 @@ From the AAP/AWX GUI -> Template
 
 ## Use Case Demo: Securing an Unprotected Application
 
+<details>
+  <summary><><><>Click to expand<><><></summary>
+
 We can demo the solution by deploying an "unprotected" application that includes:
 - A **PostgreSQL database container** with three environment variables that should be treated as secrets:
   - `DB_NAME`
@@ -245,7 +248,7 @@ You can confirm that everything worked as expected by:
 
 To dive deeper into the process, review the this part: [docs/automation-flow.md](docs/automation-flow.md).
 
-
+</details>
 
 #### ⚠️ Disclaimer
 This project is provided for demonstration and educational purposes only.  
