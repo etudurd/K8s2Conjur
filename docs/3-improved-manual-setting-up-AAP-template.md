@@ -1,6 +1,6 @@
 # ⚙️ Manual Setup: AAP Template for Kubernetes-to-Conjur Automation
 
-> 📘 **This is the continuation of Part 2:** [`secure-connection-AAP-integration.md`](./secure-connection-AAP-integration.md)
+> 📘 **This is the continuation of Part 2:** [`secure-connection-AAP-integration.md`](./2-secure-connection-AAP-integration.md)
 
 This guide provides step-by-step instructions to manually set up the AAP job template used for:
 
