@@ -382,10 +382,11 @@
         verify_ssl: false
       register: namespace_info
 
-    - name: Parse UID range and set UID facts (OpenShift only)
-      when: is_openshift and namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] is defined
+
+    - name: Set UID facts from SCC annotation if present
+      when: is_openshift
       set_fact:
-        uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
+        uid_range: "{{ (namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] | default('1001100000/10000')) }}"
         uid_start: "{{ uid_range.split('/')[0]|int }}"
         run_as_uid: "{{ uid_start + 1 }}"
 
@@ -394,7 +395,7 @@
         helm_flags: >-
           {% if is_openshift %}
           --set reloader.isOpenshift=true
-          --set reloader.deployment.securityContext.runAsUser={{ run_as_uid | default(1001100000) }} 
+          --set reloader.deployment.securityContext.runAsUser={{ run_as_uid }} 
           --set reloader.deployment.securityContext.runAsNonRoot=true 
           --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
           {% else %}
@@ -416,7 +417,6 @@
           --kube-apiserver="https://{{ ocp_api_host }}"
       args:
         executable: /bin/bash
-
 
  
     #- name: Install Reloader via Helm with SCC-compliant UID
