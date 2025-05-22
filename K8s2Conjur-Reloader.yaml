@@ -338,23 +338,6 @@
             name: secrets-access
             apiGroup: rbac.authorization.k8s.io
     
-    # Step 10.3: Deploy Reloader using Helm (if not already deployed)
-    #- name: Ensure Helm repo for Stakater is added
-    #  kubernetes.core.helm_repository:
-    #    name: stakater
-    #    repo_url: https://stakater.github.io/stakater-charts
-
-    #- name: Install Reloader via Helm (watch only the namespace of the app I am patching)
-    #  kubernetes.core.helm:
-    #    name: reloader
-    #    chart_ref: stakater/reloader
-    #    release_namespace: reloader
-    #    create_namespace: true
-    #    values:
-    #      reloader:
-    #        watchGlobally: false
-    #        namespaces:
-    #          - "{{ k8s_namespace }}"
 
     
     # Step 10.3: Deploy Reloader using Helm CLI (shell fallback)
@@ -372,30 +355,7 @@
       args:
         executable: /bin/bash
 
-    #- name: Get project metadata to extract SCC UID range
-     # kubernetes.core.k8s_info:
-      #  kind: Project
-       # api_version: project.openshift.io/v1
-        #name: "{{ k8s_namespace }}"
-        #host: "https://{{ ocp_api_host }}"
-        #api_key: "{{ ocp_token }}"
-        #verify_ssl: false
-      #register: project_metadata
-
-    #- name: Parse SCC UID range and compute safe runAsUser
-      #set_fact:
-        #uid_range: "{{ project_metadata.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
-        #uid_start: "{{ uid_range.split('/')[0]|int }}"
-        #run_as_uid: "{{ uid_start + 1 }}"
-
-    #- name: Debug selected UID (optional)
-     # debug:
-      #  msg: "📛 Using UID {{ run_as_uid }} for reloader (allowed SCC range starts at {{ uid_start }})"
-    
-    #- name: Set run_as_uid to null (for OpenShift SCC injection)
-      #set_fact:
-        #run_as_uid: null
-
+        
     - name: Detect if running on OpenShift using Kubernetes API
       kubernetes.core.k8s_info:
         kind: ClusterVersion
@@ -412,12 +372,31 @@
       set_fact:
         is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
 
+    - name: Get SCC UID range for the target namespace (OpenShift only)
+      when: is_openshift
+      kubernetes.core.k8s_info:
+        kind: Namespace
+        name: "{{ k8s_namespace }}"
+        host: "https://{{ ocp_api_host }}"
+        api_key: "{{ ocp_token }}"
+        verify_ssl: false
+      register: namespace_info
+
+    - name: Parse UID range and set UID facts (OpenShift only)
+      when: is_openshift and namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] is defined
+      set_fact:
+        uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
+        uid_start: "{{ uid_range.split('/')[0]|int }}"
+        run_as_uid: "{{ uid_start + 1 }}"
+
     - name: Set Helm flags for Reloader based on cluster type
       set_fact:
         helm_flags: >-
           {% if is_openshift %}
           --set reloader.isOpenshift=true
-          --set reloader.deployment.securityContext.enabled=false
+          --set reloader.deployment.securityContext.runAsUser={{ run_as_uid | default(1001100000) }} 
+          --set reloader.deployment.securityContext.runAsNonRoot=true 
+          --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
           {% else %}
           --set reloader.deployment.securityContext.runAsUser=1000
           --set reloader.deployment.securityContext.runAsNonRoot=true
