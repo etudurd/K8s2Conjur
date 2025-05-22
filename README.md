@@ -173,11 +173,11 @@ But for most use cases, manual copy-paste of the token is sufficient for the fir
 <details>
   <summary><><><>Click to expand<><><></summary>
 
-You can deploy this automation in minutes by either:
+You can deploy this automation in minutes:
 
-- Follow step 1+2+3 - one time process
+- **Follow step 1+2+3 - one time process**
 - (optional - UseCase demo step 4)
-- **Cloning this repository locally** and importing it into your AAP/AWX project, **OR**
+- **When step 3 is finished**: **Clone this repository locally** and importing it into your AAP/AWX project, **OR**
 - Referencing the **public GitHub repository** directly as the source in your AAP project.
 
 ---
