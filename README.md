@@ -132,6 +132,11 @@ ansible-galaxy collection install kubernetes.core
 
 ```
 
+If Reloader needs to be used, install the following
+
+ansible-galaxy collection install community.kubernetes
+
+
 🔑 Example of retrieving OpenShift API URL & Token
 Login to the OpenShift Web Console
 
