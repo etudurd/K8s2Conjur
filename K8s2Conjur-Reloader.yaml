@@ -338,25 +338,47 @@
             name: secrets-access
             apiGroup: rbac.authorization.k8s.io
     
-    # Step 10.0: Deploy Reloader using Helm (if not already deployed)
-    - name: Ensure Helm repo for Stakater is added
-      kubernetes.core.helm_repository:
-        name: stakater
-        repo_url: https://stakater.github.io/stakater-charts
+    # Step 10.3: Deploy Reloader using Helm (if not already deployed)
+    #- name: Ensure Helm repo for Stakater is added
+    #  kubernetes.core.helm_repository:
+    #    name: stakater
+    #    repo_url: https://stakater.github.io/stakater-charts
 
-    - name: Install Reloader via Helm (watch only the namespace of the app I am patching)
-      kubernetes.core.helm:
-        name: reloader
-        chart_ref: stakater/reloader
-        release_namespace: reloader
-        create_namespace: true
-        values:
-          reloader:
-            watchGlobally: false
-            namespaces:
-              - "{{ k8s_namespace }}"
+    #- name: Install Reloader via Helm (watch only the namespace of the app I am patching)
+    #  kubernetes.core.helm:
+    #    name: reloader
+    #    chart_ref: stakater/reloader
+    #    release_namespace: reloader
+    #    create_namespace: true
+    #    values:
+    #      reloader:
+    #        watchGlobally: false
+    #        namespaces:
+    #          - "{{ k8s_namespace }}"
     
-    # Step 10.3: Patch deployment with Reloader annotations
+    # Step 10.3: Deploy Reloader using Helm CLI (shell fallback)
+
+    - name: Add Stakater Helm repo and update
+      shell: |
+        helm repo add stakater https://stakater.github.io/stakater-charts
+        helm repo update
+      args:
+        executable: /bin/bash
+
+    - name: Install Reloader via Helm CLI scoped to app namespace
+      shell: |
+        helm upgrade --install reloader stakater/reloader \
+          --namespace reloader \
+          --create-namespace \
+          --set reloader.watchGlobally=false \
+          --set reloader.namespaces={{ k8s_namespace }} \
+          --kube-token="{{ ocp_token }}" \
+          --kube-apiserver="https://{{ ocp_api_host }}"
+      args:
+        executable: /bin/bash
+
+    
+    # Step 10.4: Patch deployment with Reloader annotations
     - name: Patch deployment with Reloader annotation to auto-reload on secret change @etudurd
       kubernetes.core.k8s:
         state: present
