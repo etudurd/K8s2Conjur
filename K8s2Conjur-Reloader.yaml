@@ -401,13 +401,19 @@
         run_as_uid: 1000
       when: run_as_uid is not defined
 
-    - name: Set Helm flags for Reloader
+    - name: Set Helm flags for Reloader based on cluster type
       set_fact:
         helm_flags: >-
-          --set reloader.isOpenshift=true \
-          --set reloader.deployment.securityContext.runAsUser={{ run_as_uid }} \
-          --set reloader.deployment.securityContext.runAsNonRoot=true \
+          {% if is_openshift %}
+          --set reloader.isOpenshift=true
+          --set reloader.deployment.securityContext.runAsUser={{ run_as_uid }}
+          --set reloader.deployment.securityContext.runAsNonRoot=true
           --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
+          {% else %}
+          --set reloader.deployment.securityContext.runAsUser=1000
+          --set reloader.deployment.securityContext.runAsNonRoot=true
+          --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
+          {% endif %}
 
     - name: Install Reloader via Helm
       shell: |
