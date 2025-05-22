@@ -403,19 +403,31 @@
       when: run_as_uid is not defined
 
 
-    - name: Set Helm flags for Reloader based on cluster type
+    - name: Set Helm flags for Reloader (skip runAsUser for OpenShift)
       set_fact:
         helm_flags: >-
           {% if is_openshift %}
-          --set reloader.isOpenshift=true
-          --set reloader.deployment.securityContext.runAsUser={{ run_as_uid }}
-          --set reloader.deployment.securityContext.runAsNonRoot=true
-          --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
+          --set reloader.isOpenshift=true \
+          --set reloader.deployment.securityContext.enabled=false
           {% else %}
-          --set reloader.deployment.securityContext.runAsUser=1000
-          --set reloader.deployment.securityContext.runAsNonRoot=true
+          --set reloader.deployment.securityContext.runAsUser=1000 \
+          --set reloader.deployment.securityContext.runAsNonRoot=true \
           --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
           {% endif %}
+
+    #- name: Set Helm flags for Reloader based on cluster type
+      #set_fact:
+        #helm_flags: >-
+          #{% if is_openshift %}
+          #--set reloader.isOpenshift=true
+          #--set reloader.deployment.securityContext.runAsUser={{ run_as_uid }}
+          #--set reloader.deployment.securityContext.runAsNonRoot=true
+          #--set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
+          #{% else %}
+          #--set reloader.deployment.securityContext.runAsUser=1000
+          #--set reloader.deployment.securityContext.runAsNonRoot=true
+          #--set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
+          #{% endif %}
 
 
     - name: Install Reloader via Helm (dynamic cluster logic)
