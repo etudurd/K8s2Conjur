@@ -380,7 +380,7 @@
           --set reloader.watchGlobally=false \
           --set reloader.namespaces={{ k8s_namespace }} \
           --kube-token="{{ ocp_token }}" \
-          --kube-apiserver="https://{{ ocp_api_host }}"
+          --kube-apiserver="https://{{ ocp_api_host }}" \ 
           --insecure-skip-tls-verify
       args:
         executable: /bin/bash
