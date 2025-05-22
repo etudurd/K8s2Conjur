@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: db-checker-code
-  namespace: {{NAMESPACE}}
+  namespace: $NAMESPACE
 data:
   app.py: |
     import os
@@ -38,7 +38,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db-checker
-  namespace: {{NAMESPACE}}
+  namespace: $NAMESPACE
 spec:
   replicas: 1
   selector:
