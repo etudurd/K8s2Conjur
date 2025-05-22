@@ -372,16 +372,21 @@
       args:
         executable: /bin/bash
 
-    - name: Get SCC UID range for the target namespace
-      shell: >
-        oc get project {{ k8s_namespace }} -o jsonpath='{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}'
-      register: scc_uid_range
-      changed_when: false
+    - name: Get project metadata to extract SCC UID range
+      kubernetes.core.k8s_info:
+        kind: Project
+        api_version: project.openshift.io/v1
+        name: "{{ k8s_namespace }}"
+        host: "https://{{ ocp_api_host }}"
+        api_key: "{{ ocp_token }}"
+        verify_ssl: false
+      register: project_metadata
 
     - name: Parse SCC UID range and compute safe runAsUser
       set_fact:
-        uid_start: "{{ scc_uid_range.stdout.split('/')[0]|int }}"
-        run_as_uid: "{{ uid_start + 1 }}"   # Use the 2nd UID in the range
+        uid_range: "{{ project_metadata.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
+        uid_start: "{{ uid_range.split('/')[0]|int }}"
+        run_as_uid: "{{ uid_start + 1 }}"
 
     - name: Debug selected UID (optional)
       debug:
