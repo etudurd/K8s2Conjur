@@ -380,12 +380,15 @@
           --create-namespace \
           --set reloader.watchGlobally=false \
           --set reloader.namespaces={{ k8s_namespace }} \
+          --set securityContext.runAsUser=1001100001 \
+          --set securityContext.runAsNonRoot=true \
+          --set securityContext.seccompProfile.type="RuntimeDefault" \
           --kube-token="{{ ocp_token }}" \
           --kube-apiserver="https://{{ ocp_api_host }}" 
       args:
         executable: /bin/bash
 
-    
+
     # Step 10.4: Patch deployment with Reloader annotations
     - name: Patch deployment with Reloader annotation to auto-reload on secret change @etudurd
       kubernetes.core.k8s:
@@ -401,7 +404,7 @@
         host: "https://{{ ocp_api_host }}"
         api_key: "{{ ocp_token }}"
         verify_ssl: false
-
+    
     # Step 11: Show policy and patch results
     - name: Show policy load result (final status)
       debug:
