@@ -2,7 +2,7 @@
 
 set -e
 
-NAMESPACE="tudor-automation-ns"
+read -p "Enter the namespace to clean up the unprotected app: " NAMESPACE
 
 echo "[INFO] Deleting deployments..."
 oc delete deployment postgres -n "$NAMESPACE" --ignore-not-found
