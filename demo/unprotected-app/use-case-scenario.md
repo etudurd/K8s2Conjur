@@ -38,6 +38,7 @@ chmod +x deploy.sh cleanup.sh
 
 You’ll be prompted to enter the target namespace (e.g., `tudor-automation-ns`).
 
+![AAP-integration](docs/images/uc1.png)
 ---
 
 ## 🧪 What's Inside the Demo
