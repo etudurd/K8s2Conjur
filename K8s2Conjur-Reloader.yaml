@@ -340,12 +340,12 @@
     
     # Step 10.0: Deploy Reloader using Helm (if not already deployed)
     - name: Ensure Helm repo for Stakater is added
-      community.kubernetes.helm_repository:
+      kubernetes.core.helm_repository:
         name: stakater
         repo_url: https://stakater.github.io/stakater-charts
 
     - name: Install Reloader via Helm (watch only the namespace of the app I am patching)
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         name: reloader
         chart_ref: stakater/reloader
         release_namespace: reloader
