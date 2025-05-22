@@ -391,10 +391,17 @@
         #run_as_uid: "{{ uid_range.split('/')[0] | int + 1 }}"
 
         
-    - name: Fallback to default UID range if SCC not found (OpenShift only)
-      when: is_openshift and ('openshift.io/sa.scc.uid-range' not in namespace_info.resources[0].metadata.annotations)
+    #- name: Fallback to default UID range if SCC not found (OpenShift only)
+      #when: is_openshift and ('openshift.io/sa.scc.uid-range' not in namespace_info.resources[0].metadata.annotations)
+      #set_fact:
+        #run_as_uid: 1001100001
+        
+    # Before Helm flags are set
+    - name: Ensure run_as_uid is defined (default fallback)
       set_fact:
         run_as_uid: 1001100001
+      when: run_as_uid is not defined
+
 
     - name: Set Helm flags for Reloader based on cluster type
       set_fact:
