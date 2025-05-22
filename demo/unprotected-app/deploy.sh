@@ -2,7 +2,7 @@
 
 set -e
 
-NAMESPACE="tudor-automation-ns"
+read -p "Enter the namespace to deploy the unprotected app: " NAMESPACE
 
 echo "[INFO] Creating namespace if not exists..."
 oc get project "$NAMESPACE" >/dev/null 2>&1 || oc new-project "$NAMESPACE"
