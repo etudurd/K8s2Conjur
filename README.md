@@ -169,7 +169,8 @@ But for most use cases, manual copy-paste of the token is sufficient for the fir
 
 </details>
 
-## TL;DR —  Deployment of `K8s2Conjur` Automation
+## TL;DR
+## Getting Started — Deploy the `K8s2Conjur` Automation
 <details>
   <summary><><><>Click to expand<><><></summary>
 
