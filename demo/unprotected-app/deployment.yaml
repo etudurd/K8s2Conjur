@@ -2,13 +2,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: 2025postgres-sa
-  namespace: tudor-automation-ns
+  namespace: {{NAMESPACE}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: tudor-automation-ns
+  namespace: {{NAMESPACE}}
 spec:
   replicas: 1
   selector:
