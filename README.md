@@ -174,7 +174,9 @@ But for most use cases, manual copy-paste of the token is sufficient for the fir
   <summary><><><>Click to expand<><><></summary>
 
 You can deploy this automation in minutes by either:
-    
+
+- Follow step 1+2+3 - one time process
+- (optional - UseCase demo step 4)
 - **Cloning this repository locally** and importing it into your AAP/AWX project, **OR**
 - Referencing the **public GitHub repository** directly as the source in your AAP project.
 
@@ -215,6 +217,8 @@ Once the setup above is complete, **run** the main playbook:
 From the AAP/AWX GUI -> Template
 ```
 ---
+---
+#### 4. Optional: UseCase Demo [`4-use-case-scenario.md`](./demo/unprotected-app/4-use-case-scenario.md)
 
 </details>
 
