@@ -1,5 +1,6 @@
 # <img src="docs/images/logo-placeholder-short.png" alt="Project Logo Placeholder" width="725"/>
 
+Created by Tudor I. Urdes, cybersecurity expert and author of K8s2Conjur. Connect on LinkedIn for insights, updates.
 **K8s2Conjur is a fully automated onboarding framework** that scans Kubernetes or OpenShift workloads and securely integrates both applications and secrets into **CyberArk Conjur Enterprise**.
 
 K8s2Conjur performs the following steps
