@@ -418,7 +418,7 @@
     - name: Install Reloader via Helm
       shell: |
         helm upgrade --install reloader stakater/reloader \
-          --namespace reloader \
+          --namespace "{{ k8s_namespace }}" \
           --create-namespace \
           --kube-insecure-skip-tls-verify \
           --set reloader.watchGlobally=false \
