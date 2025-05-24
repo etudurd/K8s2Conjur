@@ -32,7 +32,7 @@ K8s2Conjur performs the following steps
 
 
 ---
-## 📦 Changelog
+## Changelog
 <details> 
   <summary><><><>Click to expand<><><></summary>
 
@@ -54,7 +54,7 @@ K8s2Conjur performs the following steps
 | Inject Secrets Provider        | ✅     | ✅     | 
 | Auto-Onboard Secret Values     | ✅     | ✅     | 
 | Reloader Integration           | ❌     | ✅     | 
-| AI Secret Classification       | ❌     | ❌     | 
+| AI Secret Classification       | ❌     | ❌ TBD    | 
 | AI Variable Naming/Annotation  | ❌     | ❌     | 
 | AI Run Summary                 | ❌     | ❌     |
 </details>
