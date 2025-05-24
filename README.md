@@ -31,6 +31,35 @@ K8s2Conjur performs the following steps
 </table>
 
 
+  
+## 📦 Changelog
+<details> 
+  <summary><><><>Click to expand<><><></summary>
+
+# Changelog
+
+| Version  | Date       | Description                                                                 | Key Features                          |
+|----------|------------|-----------------------------------------------------------------------------|----------------------------------------|
+| v1.0.0   | 2024-12-15 | Initial release of K8s2Conjur automation for scanning Kubernetes secrets and onboarding them to CyberArk Conjur. | Secrets scanning, policy generation, SP injection |
+| v1.1.0   | 2025-01-10 | Added support for Reloader integration to auto-restart deployments on secret updates. | 🔁 Reloader annotation + Helm install |
+| v1.2.0   | 2025-02-05 | Added support for dynamic creation of Conjur variable values from Kubernetes secrets. | 🔐 Auto onboard real secret values |
+| v1.3.0   | 2025-05-24 | AI-enhanced version: Added AI-based secret classification, Conjur variable naming, and natural language summary. | 🤖 Secret classification<br>🧾 Auto variable naming<br>📝 AI summary |
+| v1.3.1   | 2025-05-25 | Minor cleanup, bug fixes, and improved AI fallback handling.                | 🧼 AI fail-safes, improved UX          |
+
+---
+
+# 🔀 Feature Matrix
+
+| Feature                        | v1.0.0 | v1.1.0 | 
+|--------------------------------|--------|--------|
+| Secret Scanning                | ✅     | ✅     | 
+| Conjur Policy Generation       | ✅     | ✅     | 
+| Inject Secrets Provider        | ✅     | ✅     | 
+| Auto-Onboard Secret Values     | ✅     | ✅     | 
+| Reloader Integration           | ❌     | ✅     | 
+| AI Secret Classification       | ❌     | ❌     | 
+| AI Variable Naming/Annotation  | ❌     | ❌     | 
+| AI Run Summary                 | ❌     | ❌     |
 
 📘 Official Documentation
 
