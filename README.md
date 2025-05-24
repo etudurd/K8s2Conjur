@@ -295,7 +295,7 @@ To dive deeper into the process, review the this part: [`4-use-case-scenario.md`
 <details> 
   <summary><><><>Click to expand<><><></summary>
 
-# Changelog
+### Changelog
 
 | Version  | Date       | Description                                                                 | Key Features                          |
 |----------|------------|-----------------------------------------------------------------------------|----------------------------------------|
@@ -304,7 +304,7 @@ To dive deeper into the process, review the this part: [`4-use-case-scenario.md`
 
 ---
 
-# 🔀 Feature Matrix
+### 🔀 Feature Matrix
 
 | Feature                        | v1.0.0 | v1.1.0 | 
 |--------------------------------|--------|--------|
