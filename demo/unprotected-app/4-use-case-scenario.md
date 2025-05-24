@@ -159,6 +159,41 @@ conjur policy update -f delete.yaml -b root
 ```
 
 ---
+## ♻️ Enable Auto-Redeploy with Reloader (Optional)
+
+If you are running the optional playbook `K8s2Conjur-Reloader.yaml`, this will also attach [**Stakater Reloader**](https://github.com/stakater/Reloader) to your deployment.
+
+**Reloader** is a lightweight Kubernetes controller that **monitors Secrets and ConfigMaps**, and automatically triggers rollouts of associated workloads (Deployments, StatefulSets, etc.) whenever these resources are updated.
+
+---
+
+### 🔍 Why Use Reloader?
+
+In traditional Kubernetes setups:
+
+- Updating a `Secret` or `ConfigMap` does **not** automatically restart or redeploy your workloads.
+- This can lead to **stale configurations** and **outdated credentials** being used in production.
+
+**Reloader bridges that gap** by ensuring your workloads stay in sync with configuration changes — automatically and safely.
+
+---
+
+### ✅ Benefits
+
+- ✅ Automatically rolls out workloads on secret/config updates
+- 🔁 Keeps deployments in sync with Conjur-managed secrets
+- 🛡️ Works seamlessly with Secrets Provider and dynamic secret delivery
+
+---
+
+### 🧹 Cleanup with Reloader
+
+If you've deployed Reloader, use the **dedicated cleanup script**:
+
+```bash
+./cleanup-reloader.sh
+
+---
 
 ## 📚 Learn More
 
