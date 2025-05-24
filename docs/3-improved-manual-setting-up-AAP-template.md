@@ -110,6 +110,37 @@ Click **Run** on the job template and enter the requested survey values.
 <img src="images/uc9.png" alt="Run Job Template" width="620"/>
 <img src="images/uc10.png" alt="Run Job Template" width="620"/>
 
+## ✅ Optional: Step 4.1: Run the Automation K8s2Conjur-Reloader
+### ♻️ Enable Auto-Redeploy with Reloader (Optional)
+
+If you are running the optional playbook `K8s2Conjur-Reloader.yaml`, this will also attach [**Stakater Reloader**](https://github.com/stakater/Reloader) to your deployment.
+
+**Reloader** is a lightweight Kubernetes controller that **monitors Secrets and ConfigMaps**, and automatically triggers rollouts of associated workloads (Deployments, StatefulSets, etc.) whenever these resources are updated.
+
+---
+
+### 🔍 Why Use Reloader?
+
+In traditional Kubernetes setups:
+
+- Updating a `Secret` or `ConfigMap` does **not** automatically restart or redeploy your workloads.
+- This can lead to **stale configurations** and **outdated credentials** being used in production.
+
+**Reloader bridges that gap** by ensuring your workloads stay in sync with configuration changes — automatically and safely.
+
+---
+
+### ✅ Benefits
+
+- ✅ Automatically rolls out workloads on secret/config updates
+- 🔁 Keeps deployments in sync with Conjur-managed secrets
+- 🛡️ Works seamlessly with Secrets Provider and dynamic secret delivery
+
+---
+
+![AAP-integration](/docs/images/reloader.png)
+
+
 ---
 
 ## 📌 Summary
