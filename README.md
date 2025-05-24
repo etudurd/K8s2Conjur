@@ -317,7 +317,9 @@ To dive deeper into the process, review the this part: [`4-use-case-scenario.md`
 | AI Variable Naming/Annotation  | ❌     | ❌     | 
 | AI Run Summary                 | ❌     | ❌     |
 </details>
+
 ---
+
 
 #### ⚠️ Disclaimer
 This project is provided for demonstration and educational purposes only.  
