@@ -192,6 +192,18 @@ If you've deployed Reloader, use the **dedicated cleanup script**:
 
 ```bash
 ./cleanup-reloader.sh
+```
+
+### 🔄 Manual Rotation Test (Verify Secret Update)
+
+After rotating a value (e.g., DB username or password) directly in **CyberArk Conjur**, you can verify the new secret works by logging into the container:
+
+```bash
+oc exec -it postgres-676cd89974-trclc -n tudor-automation-ns -c postgres -- \
+  psql -U <newUserValue> -d myappdb
+```
+
+![AAP-integration](/docs/images/reloader.png)
 
 ---
 
