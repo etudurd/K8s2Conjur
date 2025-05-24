@@ -115,6 +115,8 @@ Click **Run** on the job template and enter the requested survey values.
 
 If you are running the 2nd Version of the playbook `K8s2Conjur-Reloader.yaml`, this will also attach [**Stakater Reloader**](https://github.com/stakater/Reloader) to your deployment.
 
+At Step 2, Define Template -> Select K8s2Conjur-Reloader.yaml
+
 **Reloader** is a lightweight Kubernetes controller that **monitors Secrets and ConfigMaps**, and automatically triggers rollouts of associated workloads (Deployments, StatefulSets, etc.) whenever these resources are updated.
 
 ---
