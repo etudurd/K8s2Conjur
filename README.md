@@ -32,6 +32,15 @@ K8s2Conjur performs the following steps
 
 
 ---
+
+---
+## 📽️ Demo Video
+
+[![Watch the demo]([https://img.youtube.com/vi/YOUR_VIDEO_ID/hqdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://www.youtube.com/watch?v=fdZvb7C7XnI))
+
+> 🎬 Click the image above to watch the full automation walkthrough.
+---
+
 ## Changelog
 <details> 
   <summary><><><>Click to expand<><><></summary>
