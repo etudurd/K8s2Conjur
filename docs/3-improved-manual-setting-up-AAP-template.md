@@ -27,7 +27,7 @@ By the end of this guide, your AAP environment will be ready to onboard Kubernet
 Name: K8s2Conjur Automation Project 2025
 Description: E2E Automation for Conjur + AAP + OpenShift @TudorUrdes
 Organization: Conjur Demo           # 🔄 Replace with your org
-Source Control URL: <Project Git URL>  # 🔄 Replace with the repo URL
+Source Control URL: https://github.com/etudurd/K8s2Conjur   # 🔄 Replace with the repo URL
 ```
 
 <img src="images/12-s.png" alt="Project Configuration" width="420"/>
@@ -48,7 +48,7 @@ Navigate to **Resources → Templates**, then click **Add**.
 Name: K8s2Conjur Automation Project Scan Template 2025
 Inventory: Demo Inventory                        # 🔄 Replace with your target inventory
 Description: E2E Automation for Conjur Onboarding
-Playbook: K8s2Conjur.yaml
+Playbook: K8s2Conjur.yaml        | or with K8s2Conjur-Reloader.yaml  which will attach the https://github.com/stakater/Reloader
 Credentials: 
     Click 🔍 icon → Choose "Conjur Automation Settings" → Select "Conjur AAP Automation Variables"
 ```
