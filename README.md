@@ -31,7 +31,7 @@ K8s2Conjur performs the following steps
 </table>
 
 
-  
+---
 ## 📦 Changelog
 <details> 
   <summary><><><>Click to expand<><><></summary>
@@ -60,6 +60,8 @@ K8s2Conjur performs the following steps
 | AI Secret Classification       | ❌     | ❌     | 
 | AI Variable Naming/Annotation  | ❌     | ❌     | 
 | AI Run Summary                 | ❌     | ❌     |
+</details>
+---
 
 📘 Official Documentation
 
