@@ -61,8 +61,7 @@
       when: dep_info.resources | length == 0
 
     # Step 2: Extract secret references from the deployment, for push to file, before env.valueFrom.secretKeyRef, volumes[*].secret.secretName now check for Secrets mounted in volumes
-,ConfigMaps mounted in volumes
- 
+#,ConfigMaps mounted in volumes 
     - name: Extract referenced secrets and configmaps from deployment
       set_fact:
         used_secrets: >-
