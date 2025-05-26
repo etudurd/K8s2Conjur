@@ -11,7 +11,7 @@
     conjur_ssl_cert_path: /tmp/conjur.pem
 
   tasks:
-    # Step 0: Fetch Conjur certificate and render follower ConfigMap
+    # Step 0: Fetch Conjur Leader/Follower certificate and render ConfigMap
     - name: Download Conjur public certificate
       shell: |
         openssl s_client -showcerts -connect {{ conjur_host }}:443 < /dev/null 2> /dev/null \
@@ -24,7 +24,7 @@
         src: "{{ conjur_ssl_cert_path }}"
       register: cert_raw
 
-    - name: Create Conjur follower ConfigMap using k8s module with token auth
+    - name: Create Conjur ConfigMap using k8s module with token auth
       kubernetes.core.k8s:
         state: present
         host: "https://{{ ocp_api_host }}"
