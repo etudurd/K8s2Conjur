@@ -60,18 +60,21 @@
         msg: "❌ No deployment found with name '{{ deployment_name }}' in namespace '{{ k8s_namespace }}'.❌"
       when: dep_info.resources | length == 0
 
-    # Step 2: Extract secret references from the deployment
-    - name: Extract referenced secrets from deployment
+    # Step 2: Extract secret references from the deployment, for push to file, before env.valueFrom.secretKeyRef, volumes[*].secret.secretName now check for Secrets mounted in volumes
+,ConfigMaps mounted in volumes
+ 
+    - name: Extract referenced secrets and configmaps from deployment
       set_fact:
         used_secrets: >-
           {{
             (
               dep_info.resources[0].spec.template.spec.containers
-              | map('default', {}) | select('defined') | list
               | map(attribute='env') | map('default', []) | list | sum(start=[])
-              | map(attribute='valueFrom') | select('defined')
-              | map(attribute='secretKeyRef') | select('defined')
-              | map(attribute='name')
+              | selectattr('valueFrom', 'defined')
+              | map(attribute='valueFrom')
+              | map('dict2items') | sum(start=[])
+              | selectattr('value.name', 'defined')
+              | map(attribute='value.name')
             )
             +
             (
@@ -79,8 +82,13 @@
               | default([]) | selectattr('secret.secretName', 'defined')
               | map(attribute='secret.secretName')
             )
+            +
+            (
+              dep_info.resources[0].spec.template.spec.volumes
+              | default([]) | selectattr('configMap.name', 'defined')
+              | map(attribute='configMap.name')
+            )
           | list | unique }}
-      when: dep_info.resources | length > 0
 
     # Step 3: Retrieve all secrets in namespace
     - name: Get all secrets in namespace
