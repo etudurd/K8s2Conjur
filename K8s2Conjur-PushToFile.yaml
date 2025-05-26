@@ -159,7 +159,7 @@
 
     - name: Render Secrets Provider push-to-file patch
       template:
-        src: "{{ secrets_provider_patch_template_file }}"
+        src: "{{ secrets_provider_push_sidecar }}"
         dest: "{{ secrets_provider_config_file }}"
         
 
