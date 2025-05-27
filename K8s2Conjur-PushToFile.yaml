@@ -137,13 +137,24 @@
 
 # De folosit in Push to file 
 
+    #- name: Build sanitized secret_kv_pairs for templating
+      #set_fact:
+        #secret_kv_pairs_sanitized: >-
+          #{{
+            #secret_kv_pairs | map('combine',
+              #{'key': key_sanitization_map[item.key] }) | list
+          #}}
+          
     - name: Build sanitized secret_kv_pairs for templating
       set_fact:
         secret_kv_pairs_sanitized: >-
           {{
-            secret_kv_pairs | map('combine',
-              {'key': key_sanitization_map[item.key] }) | list
+            secret_kv_pairs | map('extract', ['key', 'value']) |
+            map('zip', key_sanitization_map.values() | list) |
+            map('map', 'reverse') |             # [sanitized, [key, value]] → [key, value]
+            map('combine') | list
           }}
+
 #########################################################################Terminat partea de sanitizare, sa nu am .yaml uploadat in conjur si sa fac patching cu reff corect
       
     - name: Build secret name → value map with prefixed keys
