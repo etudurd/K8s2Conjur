@@ -369,16 +369,15 @@
                   'spec': dep_info.resources[0].spec.template.spec | combine({
                     'containers': dep_info.resources[0].spec.template.spec.containers
                       | map('combine', {
-                        'volumeMounts': (
-                          item.volumeMounts
-                          | rejectattr('name', 'in',
-                              dep_info.resources[0].spec.template.spec.volumes
-                              | selectattr('secret.secretName', 'defined')
-                              | map(attribute='name') | list
-                            )
-                          | list + conjur_volume_mounts
-                        )
-                      }) | list,
+                          'volumeMounts': (
+                            (
+                              item.volumeMounts
+                              | rejectattr('name', 'in', dep_info.resources[0].spec.template.spec.volumes
+                                | selectattr('secret.secretName', 'defined') | map(attribute='name') | list)
+                              | list
+                            ) + original_secret_mount_paths | map('regex_replace', '^(.*)$', '{\"name\": \"conjur-secrets\", \"mountPath\": \"\\1\", \"readOnly\": true}') | map('from_yaml') | list
+                          )
+                        }) | list,
                     'volumes': (
                       dep_info.resources[0].spec.template.spec.volumes
                       | rejectattr('secret.secretName', 'defined')
@@ -394,6 +393,9 @@
               })
             })
           }}
+      loop: "{{ dep_info.resources[0].spec.template.spec.containers }}"
+      loop_control:
+        loop_var: item
 
 
 
