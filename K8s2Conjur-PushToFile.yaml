@@ -145,15 +145,15 @@
               # {'key': key_sanitization_map[item.key] }) | list
           # }}
           
-    - name: Build sanitized secret_kv_pairs for templating
+    - name: Initialize sanitized secret kv list
       set_fact:
-        secret_kv_pairs_sanitized: >-
-          {{
-            secret_kv_pairs | map('extract', ['key', 'value']) |
-            map('zip', key_sanitization_map.values() | list) |
-            map('map', 'reverse') |                
-            map('combine') | list
-          }}
+        secret_kv_pairs_sanitized: []
+
+    - name: Append each sanitized kv pair
+      set_fact:
+        secret_kv_pairs_sanitized: "{{ secret_kv_pairs_sanitized + [ {'key': key_sanitization_map[item.key], 'value': item.value} ] }}"
+      loop: "{{ secret_kv_pairs }}"
+      
 # [sanitized, [key, value]] → [key, value]
 #########################################################################Terminat partea de sanitizare, sa nu am .yaml uploadat in conjur si sa fac patching cu reff corect
       
