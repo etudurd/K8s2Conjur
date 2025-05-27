@@ -116,7 +116,7 @@
           # {{ secret_kv_pairs | map(attribute='key')
                              #| map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
 
-    Create a mapping: original → sanitized (needed for both patch & upload)
+   # Create a mapping: original → sanitized (needed for both patch & upload)
     - name: Build map of original → cleaned keys
       set_fact:
         key_sanitization_map: >-
