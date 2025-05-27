@@ -151,10 +151,10 @@
           {{
             secret_kv_pairs | map('extract', ['key', 'value']) |
             map('zip', key_sanitization_map.values() | list) |
-            map('map', 'reverse') |             # [sanitized, [key, value]] → [key, value]
+            map('map', 'reverse') |                
             map('combine') | list
           }}
-
+# [sanitized, [key, value]] → [key, value]
 #########################################################################Terminat partea de sanitizare, sa nu am .yaml uploadat in conjur si sa fac patching cu reff corect
       
     - name: Build secret name → value map with prefixed keys
