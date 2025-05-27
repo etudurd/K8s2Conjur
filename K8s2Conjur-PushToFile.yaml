@@ -109,14 +109,15 @@
 
 
 ############################################################################################
-# TBU - partea de sanitizarea de adaugat si la restul de proiecte 
+# TBU - partea de sanitizarea de adaugat si la restul de proiecte  
+# Aici e grupa 1 - folosec pentru sanitizare la nivel de conjur  \/
     - name: Sanitize keys (remove .yaml, .yml, .json, .txt)
       set_fact:
         sanitized_keys: >-
           {{ secret_kv_pairs | map(attribute='key')
                              | map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
-#######ce este sus adaugat recent - ultimul test 
-
+#######ce este sus adaugat recent - ultimul test  grup1 conjur /\
+# groupa 2 sanitizare la nivel de jinja secrets provider \/
    # Create a mapping: original → sanitized (needed for both patch & upload)
     - name: Build map of original → cleaned keys
       set_fact:
@@ -130,16 +131,17 @@
               )
             )
           }}
-#am inlocuit sanitized_keys cu key_sanitization_map 
+#am inlocuit sanitized_keys cu key_sanitization_map  /\
     # - name: Generate prefixed secret keys for Conjur
       # set_fact:
         # conjur_prefixed_secret_keys: >-
           # {{ key_sanitization_map | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
-
+# aici e pentru grupa 1 \/
     - name: Generate prefixed secret keys for Conjur
       set_fact:
         conjur_prefixed_secret_keys: >-
           {{ sanitized_keys | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
+# grupa 1 /\
 
 # De folosit in Push to file 
 
@@ -150,7 +152,7 @@
             # secret_kv_pairs | map('combine',
               # {'key': key_sanitization_map[item.key] }) | list
           # }}
-          
+# pentru grupa 2 la nivel de sp \/          
     - name: Initialize sanitized secret kv list
       set_fact:
         secret_kv_pairs_sanitized: []
@@ -160,7 +162,7 @@
         secret_kv_pairs_sanitized: "{{ secret_kv_pairs_sanitized + [ {'key': key_sanitization_map[item.key], 'value': item.value} ] }}"
       loop: "{{ secret_kv_pairs }}"
       
-# [sanitized, [key, value]] → [key, value]
+#pentru grupa 2 la nivel de sp /\ modificat si la nivel de jinja [sanitized, [key, value]] → [key, value]
 #########################################################################Terminat partea de sanitizare, sa nu am .yaml uploadat in conjur si sa fac patching cu reff corect
       
     - name: Build secret name → value map with prefixed keys
