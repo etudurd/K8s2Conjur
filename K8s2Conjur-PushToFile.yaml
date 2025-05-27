@@ -354,6 +354,11 @@
       when: item.status in [200, 201]
 # replace mounts XZ project
 
+    - name: Build conjur volumeMounts from original secret mount paths
+      set_fact:
+        conjur_volume_mounts: >-
+          {{ original_secret_mount_paths | map('regex_replace', '^(.*)$', "{'name': 'conjur-secrets', 'mountPath': '\\1', 'readOnly': True}") | map('from_yaml') | list }}
+
     - name: Replace secret mount paths with /conjur/
       set_fact:
         updated_deployment_spec: >-
@@ -364,17 +369,15 @@
                   'spec': dep_info.resources[0].spec.template.spec | combine({
                     'containers': dep_info.resources[0].spec.template.spec.containers
                       | map('combine', {
-                        'volumeMounts': item.volumeMounts
-                          | rejectattr('name', 'in', dep_info.resources[0].spec.template.spec.volumes
-                              | selectattr('secret.secretName', 'defined') | map(attribute='name') | list)
-                          | list + [
-                            {
-                              'name': 'conjur-secrets',
-                              'mountPath': path,
-                              'readOnly': True
-                            }
-                            for path in original_secret_mount_paths
-                          ]
+                        'volumeMounts': (
+                          item.volumeMounts
+                          | rejectattr('name', 'in',
+                              dep_info.resources[0].spec.template.spec.volumes
+                              | selectattr('secret.secretName', 'defined')
+                              | map(attribute='name') | list
+                            )
+                          | list + conjur_volume_mounts
+                        )
                       }) | list,
                     'volumes': (
                       dep_info.resources[0].spec.template.spec.volumes
@@ -391,6 +394,7 @@
               })
             })
           }}
+
 
 
     # Step 10: Patch deployment to inject Secrets Provider
