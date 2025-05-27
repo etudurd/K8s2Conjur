@@ -107,6 +107,7 @@
                                    | map(attribute='data') | list
                                    | map('dict2items') | list | sum(start=[]) }}
 
+# TBU - partea de sanitizarea de adaugat si la restul de proiecte 
     - name: Sanitize keys (remove .yaml, .yml, .json, .txt)
       set_fact:
         sanitized_keys: >-
