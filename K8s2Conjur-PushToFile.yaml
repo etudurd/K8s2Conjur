@@ -107,17 +107,44 @@
                                    | map(attribute='data') | list
                                    | map('dict2items') | list | sum(start=[]) }}
 
+
+#############################################################################################
 # TBU - partea de sanitizarea de adaugat si la restul de proiecte 
-    - name: Sanitize keys (remove .yaml, .yml, .json, .txt)
+    #- name: Sanitize keys (remove .yaml, .yml, .json, .txt)
+      #set_fact:
+        #sanitized_keys: >-
+          #{{ secret_kv_pairs | map(attribute='key')
+                             #| map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
+
+    Create a mapping: original → sanitized (needed for both patch & upload)
+    - name: Build map of original → cleaned keys
       set_fact:
-        sanitized_keys: >-
-          {{ secret_kv_pairs | map(attribute='key')
-                             | map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
+        key_sanitization_map: >-
+          {{
+            dict(
+              secret_kv_pairs | map(attribute='key') |
+              zip(
+                secret_kv_pairs | map(attribute='key') |
+                map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '')
+              )
+            )
+          }}
 
     - name: Generate prefixed secret keys for Conjur
       set_fact:
         conjur_prefixed_secret_keys: >-
           {{ sanitized_keys | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
+
+# De folosit in Push to file 
+
+    - name: Build sanitized secret_kv_pairs for templating
+      set_fact:
+        secret_kv_pairs_sanitized: >-
+          {{
+            secret_kv_pairs | map('combine',
+              {'key': key_sanitization_map[item.key] }) | list
+          }}
+#########################################################################Terminat partea de sanitizare, sa nu am .yaml uploadat in conjur si sa fac patching cu reff corect
       
     - name: Build secret name → value map with prefixed keys
       set_fact:
