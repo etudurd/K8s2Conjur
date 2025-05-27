@@ -60,7 +60,7 @@
     - name: Get original secret mount paths in containers
       set_fact:
         original_secret_mount_paths: >-
-            {{
+          {{
             dep_info.resources[0].spec.template.spec.containers
             | map(attribute='volumeMounts') | list | sum(start=[])
             | selectattr('name', 'in', dep_info.resources[0].spec.template.spec.volumes | selectattr('secret.secretName', 'defined') | map(attribute='name') | list)
