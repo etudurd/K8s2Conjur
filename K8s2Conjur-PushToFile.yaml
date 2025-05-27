@@ -112,7 +112,7 @@
 # TBU - partea de sanitizarea de adaugat si la restul de proiecte 
     #- name: Sanitize keys (remove .yaml, .yml, .json, .txt)
       #set_fact:
-        #sanitized_keys: >-
+        # sanitized_keys: >-
           #{{ secret_kv_pairs | map(attribute='key')
                              #| map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
 
