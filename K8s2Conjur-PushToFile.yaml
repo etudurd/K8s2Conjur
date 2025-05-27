@@ -112,8 +112,8 @@
 # TBU - partea de sanitizarea de adaugat si la restul de proiecte 
     #- name: Sanitize keys (remove .yaml, .yml, .json, .txt)
       #set_fact:
-        # Test sanitized_keys: >-
-          #{{ secret_kv_pairs | map(attribute='key')
+        #sanitized_keys: >-
+          # {{ secret_kv_pairs | map(attribute='key')
                              #| map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
 
     Create a mapping: original → sanitized (needed for both patch & upload)
