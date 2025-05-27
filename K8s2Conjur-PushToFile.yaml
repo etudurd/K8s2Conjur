@@ -55,6 +55,19 @@
         verify_ssl: false
       register: dep_info
 
+# detect where the app is mounting the original secret, and replace  with the new emptyDir-based conjur-secrets volume part XZ
+
+    - name: Get original secret mount paths in containers
+      set_fact:
+        original_secret_mount_paths: >-
+            {{
+            dep_info.resources[0].spec.template.spec.containers
+            | map(attribute='volumeMounts') | list | sum(start=[])
+            | selectattr('name', 'in', dep_info.resources[0].spec.template.spec.volumes | selectattr('secret.secretName', 'defined') | map(attribute='name') | list)
+            | map(attribute='mountPath') | list
+          }}
+
+
     - name: Debug if deployment exists
       debug:
         msg: "❌ No deployment found with name '{{ deployment_name }}' in namespace '{{ k8s_namespace }}'.❌"
@@ -339,6 +352,46 @@
           ✅ K8s2Conjur ✅ Secret uploaded: {{ item.item.key }} → Status: {{ item.status }}
       loop: "{{ secret_upload_result.results }}"
       when: item.status in [200, 201]
+# replace mounts XZ project
+
+    - name: Replace secret mount paths with /conjur/
+      set_fact:
+        updated_deployment_spec: >-
+          {{
+            dep_info.resources[0] | combine({
+              'spec': dep_info.resources[0].spec | combine({
+                'template': dep_info.resources[0].spec.template | combine({
+                  'spec': dep_info.resources[0].spec.template.spec | combine({
+                    'containers': dep_info.resources[0].spec.template.spec.containers
+                      | map('combine', {
+                        'volumeMounts': item.volumeMounts
+                          | rejectattr('name', 'in', dep_info.resources[0].spec.template.spec.volumes
+                              | selectattr('secret.secretName', 'defined') | map(attribute='name') | list)
+                          | list + [
+                            {
+                              'name': 'conjur-secrets',
+                              'mountPath': path,
+                              'readOnly': True
+                            }
+                            for path in original_secret_mount_paths
+                          ]
+                      }) | list,
+                    'volumes': (
+                      dep_info.resources[0].spec.template.spec.volumes
+                      | rejectattr('secret.secretName', 'defined')
+                      | list
+                    ) + [
+                      {
+                        'name': 'conjur-secrets',
+                        'emptyDir': { 'medium': 'Memory' }
+                      }
+                    ]
+                  })
+                })
+              })
+            })
+          }}
+
 
     # Step 10: Patch deployment to inject Secrets Provider
 
