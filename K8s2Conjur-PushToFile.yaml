@@ -142,7 +142,7 @@
         #secret_kv_pairs_sanitized: >-
           #{{
             #secret_kv_pairs | map('combine',
-              #{'key': key_sanitization_map[item.key] }) | list
+              # {'key': key_sanitization_map[item.key] }) | list
           #}}
           
     - name: Build sanitized secret_kv_pairs for templating
