@@ -110,11 +110,12 @@
 
 ############################################################################################
 # TBU - partea de sanitizarea de adaugat si la restul de proiecte 
-    #- name: Sanitize keys (remove .yaml, .yml, .json, .txt)
-      #set_fact:
-        #sanitized_keys: >-
-          # {{ secret_kv_pairs | map(attribute='key')
-                             #| map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
+    - name: Sanitize keys (remove .yaml, .yml, .json, .txt)
+      set_fact:
+        sanitized_keys: >-
+          {{ secret_kv_pairs | map(attribute='key')
+                             | map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
+#######ce este sus adaugat recent - ultimul test 
 
    # Create a mapping: original → sanitized (needed for both patch & upload)
     - name: Build map of original → cleaned keys
@@ -130,10 +131,15 @@
             )
           }}
 #am inlocuit sanitized_keys cu key_sanitization_map 
+    # - name: Generate prefixed secret keys for Conjur
+      # set_fact:
+        # conjur_prefixed_secret_keys: >-
+          # {{ key_sanitization_map | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
+
     - name: Generate prefixed secret keys for Conjur
       set_fact:
         conjur_prefixed_secret_keys: >-
-          {{ key_sanitization_map | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
+          {{ sanitized_keys | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
 
 # De folosit in Push to file 
 
