@@ -129,11 +129,11 @@
               )
             )
           }}
-
+#am inlocuit sanitized_keys cu key_sanitization_map 
     - name: Generate prefixed secret keys for Conjur
       set_fact:
         conjur_prefixed_secret_keys: >-
-          {{ sanitized_keys | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
+          {{ key_sanitization_map | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
 
 # De folosit in Push to file 
 
