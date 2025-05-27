@@ -1,4 +1,4 @@
-- name: conjur-secretsScan app for Kubernetes Secret usage and authenticate to Conjur
+- name: Scan app for Kubernetes Secret usage and authenticate to Conjur
   hosts: localhost
   gather_facts: false
   vars:
@@ -12,19 +12,19 @@
 
   tasks:
     # Step 0: Fetch Conjur Leader/Follower certificate and render ConfigMap
-    - name: conjur-secretsDownload Conjur public certificate
+    - name: Download Conjur public certificate
       shell: |
         openssl s_client -showcerts -connect {{ conjur_host }}:443 < /dev/null 2> /dev/null \
         | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > {{ conjur_ssl_cert_path }}
       args:
         executable: /bin/bash
 
-    - name: conjur-secretsRead Conjur certificate into memory
+    - name: Read Conjur certificate into memory
       slurp:
         src: "{{ conjur_ssl_cert_path }}"
       register: cert_raw
 
-    - name: conjur-secretsCreate Conjur ConfigMap using k8s module with token auth
+    - name: Create Conjur ConfigMap using k8s module with token auth
       kubernetes.core.k8s:
         state: present
         host: "https://{{ ocp_api_host }}"
@@ -34,7 +34,7 @@
           apiVersion: v1
           kind: ConfigMap
           metadata:
-            name: conjur-secretsfollower-cm
+            name: follower-cm
             namespace: "{{ k8s_namespace }}"
           data:
             CONJUR_ACCOUNT: "{{ conjur_account }}"
@@ -44,11 +44,11 @@
             CONJUR_SSL_CERTIFICATE: "{{ cert_raw['content'] | b64decode }}"
 
     # Step 1: Fetch deployment details from OpenShift API
-    - name: conjur-secretsGet deployment spec
+    - name: Get deployment spec
       kubernetes.core.k8s_info:
         kind: Deployment
         api_version: apps/v1
-        name: conjur-secrets"{{ deployment_name }}"
+        name: "{{ deployment_name }}"
         namespace: "{{ k8s_namespace }}"
         host: "https://{{ ocp_api_host }}"
         api_key: "{{ ocp_token }}"
@@ -57,7 +57,7 @@
 
 # detect where the app is mounting the original secret, and replace  with the new emptyDir-based conjur-secrets volume part XZ
 
-    - name: conjur-secretsGet original secret mount paths in containers
+    - name: Get original secret mount paths in containers
       set_fact:
         original_secret_mount_paths: >-
           {{
@@ -68,14 +68,14 @@
           }}
 
 
-    - name: conjur-secretsDebug if deployment exists
+    - name: Debug if deployment exists
       debug:
         msg: "❌ No deployment found with name '{{ deployment_name }}' in namespace '{{ k8s_namespace }}'.❌"
       when: dep_info.resources | length == 0
 
     # Step 2: Extract secret references from the deployment, for push to file, before env.valueFrom.secretKeyRef, volumes[*].secret.secretName now check for Secrets mounted in volumes
 #,ConfigMaps mounted in volumes 
-    - name: conjur-secretsExtract referenced secrets and configmaps from deployment
+    - name: Extract referenced secrets and configmaps from deployment
       set_fact:
         used_secrets: >-
           {{
@@ -103,7 +103,7 @@
           | list | unique }}
 
     # Step 3: Retrieve all secrets in namespace
-    - name: conjur-secretsGet all secrets in namespace
+    - name: Get all secrets in namespace
       kubernetes.core.k8s_info:
         kind: Secret
         api_version: v1
@@ -113,7 +113,7 @@
         verify_ssl: false
       register: all_secrets
 
-    - name: conjur-secretsExtract keys from used secrets
+    - name: Extract keys from used secrets
       set_fact:
         secret_kv_pairs: >-
           {{ all_secrets.resources | selectattr('metadata.name', 'in', used_secrets)
@@ -124,7 +124,7 @@
 ############################################################################################
 # TBU - partea de sanitizarea de adaugat si la restul de proiecte  
 # Aici e grupa 1 - folosec pentru sanitizare la nivel de conjur  \/
-    - name: conjur-secretsSanitize keys (remove .yaml, .yml, .json, .txt)
+    - name: Sanitize keys (remove .yaml, .yml, .json, .txt)
       set_fact:
         sanitized_keys: >-
           {{ secret_kv_pairs | map(attribute='key')
@@ -132,7 +132,7 @@
 #######ce este sus adaugat recent - ultimul test  grup1 conjur /\
 # groupa 2 sanitizare la nivel de jinja secrets provider \/
    # Create a mapping: original → sanitized (needed for both patch & upload)
-    - name: conjur-secretsBuild map of original → cleaned keys
+    - name: Build map of original → cleaned keys
       set_fact:
         key_sanitization_map: >-
           {{
@@ -145,12 +145,12 @@
             )
           }}
 #am inlocuit sanitized_keys cu key_sanitization_map  /\
-    # - name: conjur-secretsGenerate prefixed secret keys for Conjur
+    # - name: Generate prefixed secret keys for Conjur
       # set_fact:
         # conjur_prefixed_secret_keys: >-
           # {{ key_sanitization_map | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
 # aici e pentru grupa 1 \/
-    - name: conjur-secretsGenerate prefixed secret keys for Conjur
+    - name: Generate prefixed secret keys for Conjur
       set_fact:
         conjur_prefixed_secret_keys: >-
           {{ sanitized_keys | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
@@ -158,7 +158,7 @@
 
 # De folosit in Push to file 
 
-    # - name: conjur-secretsBuild sanitized secret_kv_pairs for templating
+    # - name: Build sanitized secret_kv_pairs for templating
       # set_fact:
         # secret_kv_pairs_sanitized: >-
           # {{
@@ -166,11 +166,11 @@
               # {'key': key_sanitization_map[item.key] }) | list
           # }}
 # pentru grupa 2 la nivel de sp \/          
-    - name: conjur-secretsInitialize sanitized secret kv list
+    - name: Initialize sanitized secret kv list
       set_fact:
         secret_kv_pairs_sanitized: []
 
-    - name: conjur-secretsAppend each sanitized kv pair
+    - name: Append each sanitized kv pair
       set_fact:
         secret_kv_pairs_sanitized: "{{ secret_kv_pairs_sanitized + [ {'key': key_sanitization_map[item.key], 'value': item.value} ] }}"
       loop: "{{ secret_kv_pairs }}"
@@ -178,7 +178,7 @@
 #pentru grupa 2 la nivel de sp /\ modificat si la nivel de jinja [sanitized, [key, value]] → [key, value]
 #########################################################################Terminat partea de sanitizare, sa nu am .yaml uploadat in conjur si sa fac patching cu reff corect
       
-    - name: conjur-secretsBuild secret name → value map with prefixed keys
+    - name: Build secret name → value map with prefixed keys
       set_fact:
         conjur_prefixed_secret_map: >-
           {{ dict(
@@ -187,11 +187,11 @@
             )
           ) }}
 
-    - name: conjur-secretsDebug Conjur-prefixed secret map
+    - name: Debug Conjur-prefixed secret map
       debug:
         var: conjur_prefixed_secret_map
 
-    - name: conjur-secretsClassify secrets by mount type
+    - name: Classify secrets by mount type
       set_fact:
         file_based_keys: >-
           {{
@@ -209,7 +209,7 @@
           }}
         onboarding_mode: all
         
-    - name: conjur-secretsShow decoded values before upload
+    - name: Show decoded values before upload
       debug:
         msg: "{{ item.key }} → {{ item.value | b64decode }}"
       loop: >-
@@ -218,12 +218,12 @@
                                      | rejectattr('key', 'search', 'conjur-map$')
                                      | list }}
 
-    - name: conjur-secretsSet secret_keys for templating
+    - name: Set secret_keys for templating
       set_fact:
         secret_keys: "{{ conjur_prefixed_secret_keys }}"
 
     # Step 4: Suggest improvements
-    - name: conjur-secretsSuggest improvements
+    - name: Suggest improvements
       debug:
         msg: |
           💡💡💡💡 Recommendations:
@@ -233,51 +233,51 @@
           {% endfor %}
 
     # Step 5: Authenticate to Conjur (API key + session token)
-    - name: conjur-secretsLogin to Conjur (get API key)
+    - name: Login to Conjur (get API key)
       shell: >
         curl -s -k --user {{ conjur_username }}:{{ conjur_password }}
         https://{{ conjur_host }}/authn/{{ conjur_account }}/login
       register: conjur_login_response
       no_log: true
 
-    - name: conjur-secretsAuthenticate to Conjur (get session token)
+    - name: Authenticate to Conjur (get session token)
       shell: >
         curl -s -k --data '{{ conjur_login_response.stdout }}'
         https://{{ conjur_host }}/authn/{{ conjur_account }}/{{ conjur_username }}/authenticate
       register: conjur_session_token_raw
       no_log: true
 
-    - name: conjur-secretsBase64 encode session token using Ansible filter
+    - name: Base64 encode session token using Ansible filter
       set_fact:
         conjur_session_token_b64: "{{ conjur_session_token_raw.stdout | b64encode }}"
 
     # Step 6: List Conjur resources (verify token)
-    - name: conjur-secretsCall Conjur API to list all resources (conjur list)
+    - name: Call Conjur API to list all resources (conjur list)
       shell: >
         curl -s -k -H "Authorization: Token token=\"{{ conjur_session_token_b64 }}\""
         https://{{ conjur_host }}/resources/{{ conjur_account }}
       register: conjur_list_output
 
-    - name: conjur-secretsParse and extract Conjur resource IDs
+    - name: Parse and extract Conjur resource IDs
       set_fact:
         conjur_resources: "{{ conjur_list_output.stdout | from_json | map(attribute='id') | list }}"
 
-    - name: conjur-secretsShow full Conjur resource list (formatted line by line)
+    - name: Show full Conjur resource list (formatted line by line)
       debug:
         var: conjur_resources
 
     # Step 7: Render and load host identity policy
-    - name: conjur-secretsRender host policy from Jinja template
+    - name: Render host policy from Jinja template
       template:
         src: "{{ policy_template_file }}"
         dest: "{{ policy_rendered_file }}"
 
-    - name: conjur-secretsRead rendered host policy file
+    - name: Read rendered host policy file
       slurp:
         src: "{{ policy_rendered_file }}"
       register: policy_file_content
 
-    - name: conjur-secretsLoad host policy into Conjur (POST)
+    - name: Load host policy into Conjur (POST)
       uri:
         url: "https://{{ conjur_host }}/policies/{{ conjur_account }}/policy/root"
         method: POST
@@ -292,27 +292,27 @@
       ignore_errors: true
 
     # Step 8: Confirm host identity created
-    - name: conjur-secretsCheck if new host was added
+    - name: Check if new host was added
       set_fact:
         new_host_id: "app-path/system:serviceaccount:{{ k8s_namespace }}:{{ service_account }}"
 
-    - name: conjur-secretsValidate host creation
+    - name: Validate host creation
       debug:
         msg: "✅ K8s2Conjur ✅ Host '{{ new_host_id }}' was successfully registered in Conjur. ✅"
       when: new_host_id in conjur_resources | join(',')
 
     # Step 9: Generate variable & grant policy
-    - name: conjur-secretsRender Conjur variable+grant policy from template
+    - name: Render Conjur variable+grant policy from template
       template:
         src: "{{ variable_policy_template_file }}"
         dest: "{{ variable_policy_rendered_file }}"
 
-    - name: conjur-secretsRead rendered variable policy file
+    - name: Read rendered variable policy file
       slurp:
         src: "{{ variable_policy_rendered_file }}"
       register: variable_policy_file_content
 
-    - name: conjur-secretsLoad secrets variable & access policy
+    - name: Load secrets variable & access policy
       uri:
         url: "https://{{ conjur_host }}/policies/{{ conjur_account }}/policy/root"
         method: POST
@@ -326,7 +326,7 @@
       failed_when: secret_policy_result.status not in [200, 201]
 
     # NOU:Step 9.1 (AFTER variable creation): Upload secret values to Conjur
-    - name: conjur-secretsUpload secret values to Conjur
+    - name: Upload secret values to Conjur
       uri:
         url: "https://{{ conjur_host }}/secrets/{{ conjur_account }}/variable/secrets/{{ item.key }}"
         method: POST
@@ -346,7 +346,7 @@
       register: secret_upload_result
       failed_when: secret_upload_result.status not in [200, 201]
       
-    - name: conjur-secretsShow uploaded secrets result
+    - name: Show uploaded secrets result
       debug:
         msg: |
           ✅ K8s2Conjur ✅ Secret uploaded: {{ item.item.key }} → Status: {{ item.status }}
@@ -354,12 +354,12 @@
       when: item.status in [200, 201]
 # replace mounts XZ project
 
-    - name: conjur-secretsBuild conjur volumeMounts from original secret mount paths
+    - name: Build conjur volumeMounts from original secret mount paths
       set_fact:
         conjur_volume_mounts: >-
           {{ original_secret_mount_paths | map('regex_replace', '^(.*)$', "{'name': 'conjur-secrets', 'mountPath': '\\1', 'readOnly': True}") | map('from_yaml') | list }}
 
-    - name: conjur-secretsReplace secret mount paths with /conjur/
+    - name: Replace secret mount paths with /conjur/
       set_fact:
         updated_deployment_spec: >-
           {{
@@ -380,7 +380,7 @@
                         }) | list,
                     'volumes': (
                       dep_info.resources[0].spec.template.spec.volumes
-                      # intentionally not rejecting volumes due to usage in initContainer
+                      | rejectattr('secret.secretName', 'defined')
                       | list
                     ) + [
                       {
@@ -401,21 +401,12 @@
 
     # Step 10: Patch deployment to inject Secrets Provider
 
-    
-    - name: conjur-secretsPatch app deployment to use conjur-secrets volume
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ updated_deployment_spec }}"
-        host: "https://{{ ocp_api_host }}"
-        api_key: "{{ ocp_token }}"
-        verify_ssl: false
-
-    - name: conjur-secretsRender Secrets Provider push-to-file patch
+    - name: Render Secrets Provider push-to-file patch
       template:
         src: "{{ secrets_provider_patch_template_file }}"
         dest: "{{ secrets_provider_config_file }}"
 
-    - name: conjur-secretsPatch application with Secrets Provider
+    - name: Patch application with Secrets Provider
       kubernetes.core.k8s:
         state: present
         host: "https://{{ ocp_api_host }}"
@@ -423,7 +414,7 @@
         verify_ssl: false
         src: "{{ secrets_provider_config_file }}"
 
-    - name: conjur-secretsUpload secret values to Conjur
+    - name: Upload secret values to Conjur
       uri:
         url: "https://{{ conjur_host }}/secrets/{{ conjur_account }}/variable/secrets/{{ item.key }}"
         method: POST
@@ -447,24 +438,24 @@
     
     # Step 10.3: Deploy Reloader using Helm CLI (shell fallback)
 
-    - name: conjur-secretsInstall Helm CLI temporarily inside EE (if not present)
+    - name: Install Helm CLI temporarily inside EE (if not present)
       shell: |
         curl -sSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       args:
         executable: /bin/bash
 
-    - name: conjur-secretsAdd Stakater Helm repo and update
+    - name: Add Stakater Helm repo and update
       shell: |
         helm repo add stakater https://stakater.github.io/stakater-charts
         helm repo update
       args:
         executable: /bin/bash
 
-    - name: conjur-secretsDetect if running on OpenShift using Kubernetes API
+    - name: Detect if running on OpenShift using Kubernetes API
       kubernetes.core.k8s_info:
         kind: ClusterVersion
         api_version: config.openshift.io/v1
-        name: conjur-secretsversion
+        name: version
         host: "https://{{ ocp_api_host }}"
         api_key: "{{ ocp_token }}"
         verify_ssl: false
@@ -472,41 +463,41 @@
       failed_when: false
       changed_when: false
 
-    - name: conjur-secretsSet cluster type fact
+    - name: Set cluster type fact
       set_fact:
         is_openshift: "{{ cluster_version_result.resources is defined and cluster_version_result.resources | length > 0 }}"
 
-    - name: conjur-secretsGet namespace metadata (OpenShift only)
+    - name: Get namespace metadata (OpenShift only)
       when: is_openshift
       kubernetes.core.k8s_info:
         kind: Namespace
-        name: conjur-secrets"{{ k8s_namespace }}"
+        name: "{{ k8s_namespace }}"
         host: "https://{{ ocp_api_host }}"
         api_key: "{{ ocp_token }}"
         verify_ssl: false
       register: namespace_info
 
-    - name: conjur-secretsExtract UID range and compute runAsUser
+    - name: Extract UID range and compute runAsUser
       when: >
         is_openshift and
         (namespace_info.resources[0].metadata.annotations is defined and
          'openshift.io/sa.scc.uid-range' in namespace_info.resources[0].metadata.annotations)
       block:
-        - name: conjur-secretsExtract UID range safely
+        - name: Extract UID range safely
           set_fact:
             uid_range: "{{ namespace_info.resources[0].metadata.annotations['openshift.io/sa.scc.uid-range'] }}"
 
-        - name: conjur-secretsCompute runAsUser from UID range
+        - name: Compute runAsUser from UID range
           set_fact:
             run_as_uid: "{{ (uid_range.split('/')[0] | int) + 1 }}"
 
 
-    - name: conjur-secretsSet default runAsUser if UID range not found
+    - name: Set default runAsUser if UID range not found
       set_fact:
         run_as_uid: 1000
       when: run_as_uid is not defined
 
-    - name: conjur-secretsSet Helm flags for Reloader based on cluster type
+    - name: Set Helm flags for Reloader based on cluster type
       set_fact:
         helm_flags: >-
           {% if is_openshift %}
@@ -520,7 +511,7 @@
           --set reloader.deployment.securityContext.seccompProfile.type=RuntimeDefault
           {% endif %}
 
-    - name: conjur-secretsInstall Reloader via Helm
+    - name: Install Reloader via Helm
       shell: |
         helm upgrade --install reloader stakater/reloader \
           --namespace "{{ k8s_namespace }}" \
@@ -534,7 +525,7 @@
       args:
         executable: /bin/bash
 
-    #- name: conjur-secretsInstall Reloader via Helm with SCC-compliant UID
+    #- name: Install Reloader via Helm with SCC-compliant UID
       #shell: |
         #helm upgrade --install reloader stakater/reloader \
           #--kube-insecure-skip-tls-verify \
@@ -552,14 +543,14 @@
 
 
     # Step 10.4: Patch deployment with Reloader annotations
-    - name: conjur-secretsPatch deployment with Reloader annotation to auto-reload on secret change @etudurd
+    - name: Patch deployment with Reloader annotation to auto-reload on secret change @etudurd
       kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: apps/v1
           kind: Deployment
           metadata:
-            name: conjur-secrets"{{ deployment_name }}"
+            name: "{{ deployment_name }}"
             namespace: "{{ k8s_namespace }}"
             annotations:
               reloader.stakater.com/auto: "true"
@@ -568,14 +559,14 @@
         verify_ssl: false
     
     # Step 11: Show policy and patch results
-    - name: conjur-secretsShow policy load result (final status)
+    - name: Show policy load result (final status)
       debug:
         msg: >
           📜 K8s2Conjur 📜 Final policy load status:
           - Host policy POST: {{ policy_load_response.status | default('N/A') }}
           - Variable policy POST: {{ secret_policy_result.status | default('N/A') }}
 
-    - name: conjur-secretsCLI equivalent commands
+    - name: CLI equivalent commands
       debug:
         msg: |
           💡 Equivalent CLI:
@@ -583,7 +574,7 @@
           conjur policy load -f {{ variable_policy_rendered_file }} -b root
     
     #am adaugat un rezumat cu emoji sa arate mai bine din punct de vedere al utilizatorului @etudurd
-    - name: conjur-secrets✅ K8s2Conjur Rezumat 
+    - name: ✅ K8s2Conjur Rezumat 
       debug:
         msg: "{{ summary_message.split('\n') }}"
       vars:
