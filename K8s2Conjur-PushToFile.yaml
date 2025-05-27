@@ -288,15 +288,6 @@
       loop: "{{ secret_upload_result.results }}"
       when: item.status in [200, 201]
 
-    - name: DEBUG Print rendered YAML
-      shell: cat {{ secrets_provider_config_file }}
-      register: rendered_file
-      changed_when: false
-
-    - name: Debug output
-      debug:
-        msg: "{{ rendered_file.stdout_lines }}"
-
     # Step 10: Patch deployment to inject Secrets Provider
 
     - name: Render Secrets Provider push-to-file patch
