@@ -397,6 +397,13 @@
       loop_control:
         loop_var: item
 
+    - name: Apply updated deployment spec with Secrets Provider volume mounts
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ updated_deployment_spec }}"
+        host: "https://{{ ocp_api_host }}"
+        api_key: "{{ ocp_token }}"
+        verify_ssl: false
 
 
     # Step 10: Patch deployment to inject Secrets Provider
