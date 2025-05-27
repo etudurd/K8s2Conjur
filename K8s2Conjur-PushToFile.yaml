@@ -401,7 +401,16 @@
 
     # Step 10: Patch deployment to inject Secrets Provider
 
-    - name: Render Secrets Provider push-to-file patch
+    
+    - name: Patch app deployment to use conjur-secrets volume
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ updated_deployment_spec }}"
+        host: "https://{{ ocp_api_host }}"
+        api_key: "{{ ocp_token }}"
+        verify_ssl: false
+
+- name: Render Secrets Provider push-to-file patch
       template:
         src: "{{ secrets_provider_patch_template_file }}"
         dest: "{{ secrets_provider_config_file }}"
