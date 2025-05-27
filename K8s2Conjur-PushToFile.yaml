@@ -157,12 +157,6 @@
       set_fact:
         secret_keys: "{{ conjur_prefixed_secret_keys }}"
 
-    - name: Render Secrets Provider push-to-file patch
-      template:
-        src: "{{ secrets_provider_patch_template_file }}"
-        dest: "{{ secrets_provider_config_file }}"
-        
-
     # Step 4: Suggest improvements
     - name: Suggest improvements
       debug:
@@ -295,11 +289,12 @@
       when: item.status in [200, 201]
 
     # Step 10: Patch deployment to inject Secrets Provider
+
     - name: Render Secrets Provider push-to-file patch
       template:
-        src: "{{ secrets_provider_patch_template }}"
+        src: "{{ secrets_provider_patch_template_file }}"
         dest: "{{ secrets_provider_config_file }}"
-        
+
     - name: Patch application with Secrets Provider
       kubernetes.core.k8s:
         state: present
