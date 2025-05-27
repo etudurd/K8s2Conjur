@@ -107,12 +107,17 @@
                                    | map(attribute='data') | list
                                    | map('dict2items') | list | sum(start=[]) }}
 
-    - name: Generate prefixed secret keys for Conjur (e.g., test-app-username)
+    - name: Sanitize keys (remove .yaml, .yml, .json, .txt)
+      set_fact:
+        sanitized_keys: >-
+          {{ secret_kv_pairs | map(attribute='key')
+                             | map('regex_replace', '\.(yaml|yml|json|txt)(\.backup)?$', '') | list }}
+
+    - name: Generate prefixed secret keys for Conjur
       set_fact:
         conjur_prefixed_secret_keys: >-
-          {{ secret_kv_pairs | map(attribute='key')
-                             | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
-
+          {{ sanitized_keys | map('regex_replace', '^(.*)$', deployment_name ~ '-OnboardedSecret/\1') | list }}
+      
     - name: Build secret name → value map with prefixed keys
       set_fact:
         conjur_prefixed_secret_map: >-
