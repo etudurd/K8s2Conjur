@@ -301,6 +301,7 @@ To dive deeper into the process, review the this part: [`4-use-case-scenario.md`
 |----------|------------|-----------------------------------------------------------------------------|----------------------------------------|
 | v1.0.0   | 2025-05-19 | Initial release of K8s2Conjur automation for scanning Kubernetes secrets and onboarding them to CyberArk Conjur. | Secrets scanning, policy generation, SP injection, dynamic creation of Conjur vars from K8s |
 | v1.1.0   | 2025-05-24| Added support for Reloader integration to auto-restart deployments on secret updates. | 🔁 Reloader annotation + Helm install |
+| v1.1.1   | 2025-10-22| Added support for the latest Conjur Enterprise version 13.6.3-13.7 (renamed CyberArk Secrets Manager self-hosted) |
 
 ---
 
